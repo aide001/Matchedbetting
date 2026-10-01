@@ -30,8 +30,12 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bets));
     } catch (e) {
-      alert('Your browser blocked saving. Export a CSV so you don\'t lose these entries.');
+      setStatus('Your browser blocked saving. Export a CSV so you don\'t lose these entries.');
     }
+  }
+
+  function setStatus(msg) {
+    $('status').textContent = msg;
   }
 
   function money(n) {
@@ -193,6 +197,12 @@
   // Prefill from the calculator's "Log this bet" link.
   function prefillFromQuery() {
     var q = new URLSearchParams(location.search);
+    if (!q.has('profit')) {
+      try {
+        q = new URLSearchParams(sessionStorage.getItem('mb.prefill') || '');
+        sessionStorage.removeItem('mb.prefill');
+      } catch (err) { /* storage unavailable */ }
+    }
     if (!q.has('profit')) return;
     if (TYPE_LABELS[q.get('type')]) $('f-type').value = q.get('type');
     if (q.get('stake')) $('f-stake').value = q.get('stake');
@@ -239,19 +249,36 @@
       bets = bets.concat(imported);
       persist();
       render();
-      alert('Imported ' + imported.length + ' bet(s)' + (skipped ? ', skipped ' + skipped + ' invalid row(s).' : '.'));
+      setStatus('Imported ' + imported.length + ' bet(s)' + (skipped ? ', skipped ' + skipped + ' invalid row(s).' : '.'));
       e.target.value = '';
     };
     reader.readAsText(file);
   });
 
+  $('copy-csv').addEventListener('click', function () {
+    var text = MBCsv.toCSV(bets, COLUMNS);
+    var done = function () { setStatus('Copied ' + bets.length + ' bet(s) as CSV. Paste into a spreadsheet or text file.'); };
+    try {
+      navigator.clipboard.writeText(text).then(done, function () {
+        setStatus('Your browser blocked copying. Use Export CSV instead.');
+      });
+    } catch (err) {
+      setStatus('Your browser blocked copying. Use Export CSV instead.');
+    }
+  });
+
   $('clear-all').addEventListener('click', function () {
     if (!bets.length) return;
-    if (confirm('Delete all ' + bets.length + ' bets? Export a CSV first if you want to keep them.')) {
-      bets = [];
-      persist();
-      render();
-    }
+    $('confirm-clear-text').textContent = 'Delete all ' + bets.length + ' bets? Export a CSV first if you want to keep them.';
+    $('confirm-clear').hidden = false;
+  });
+  $('confirm-clear-no').addEventListener('click', function () { $('confirm-clear').hidden = true; });
+  $('confirm-clear-yes').addEventListener('click', function () {
+    bets = [];
+    persist();
+    $('confirm-clear').hidden = true;
+    setStatus('Deleted all bets.');
+    render();
   });
 
   $('f-date').value = today();

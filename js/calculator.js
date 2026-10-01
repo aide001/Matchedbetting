@@ -76,6 +76,7 @@
       $('r-rating').textContent = '';
       $('r-instruction').textContent = 'Fix the inputs above to see your lay stake.';
       $('log-bet').href = 'tracker.html';
+      $('log-bet').dataset.prefill = '';
       return;
     }
     errList.hidden = true;
@@ -104,6 +105,7 @@
       profit: r.guaranteedProfit.toFixed(2)
     });
     $('log-bet').href = 'tracker.html?' + params.toString();
+    $('log-bet').dataset.prefill = params.toString();
   }
 
   function strong(text) {
@@ -111,6 +113,11 @@
     s.textContent = text;
     return s;
   }
+
+  // Also hand the values over via sessionStorage, for hosts that drop query strings.
+  $('log-bet').addEventListener('click', function () {
+    try { sessionStorage.setItem('mb.prefill', this.dataset.prefill || ''); } catch (err) { /* ignore */ }
+  });
 
   restore();
   form.addEventListener('input', render);

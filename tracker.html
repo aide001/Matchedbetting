@@ -106,9 +106,16 @@
           <button class="btn small secondary" id="export-csv" type="button">Export CSV</button>
           <label class="btn small secondary" for="import-csv" style="margin:0">Import CSV</label>
           <input id="import-csv" type="file" accept=".csv,text/csv" hidden>
+          <button class="btn small secondary" id="copy-csv" type="button">Copy CSV</button>
           <button class="btn small danger" id="clear-all" type="button">Delete all</button>
         </div>
       </div>
+      <div class="btn-row" id="confirm-clear" hidden style="margin-top:1rem;align-items:center">
+        <span id="confirm-clear-text"></span>
+        <button class="btn small danger" id="confirm-clear-yes" type="button">Yes, delete everything</button>
+        <button class="btn small secondary" id="confirm-clear-no" type="button">Cancel</button>
+      </div>
+      <p class="muted" id="status" role="status" style="margin:1rem 0 0"></p>
       <div class="table-wrap" style="margin-top:1rem">
         <table>
           <thead>
