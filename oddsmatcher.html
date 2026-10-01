@@ -23,25 +23,27 @@
     <h1>Oddsmatcher</h1>
     <p class="muted">Finds bookmaker prices that are closest to the exchange lay price, so you lose the least on qualifying bets and keep the most from free bets.</p>
 
-    <section class="card" aria-labelledby="source-h">
-      <h2 id="source-h" class="h-small">Odds source</h2>
-      <div class="om-source">
-        <div class="field">
-          <label for="om-key">The Odds API key</label>
-          <input id="om-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key">
-          <span class="hint">Get a free key (500 requests a month) at <a href="https://the-odds-api.com/" rel="noopener">the-odds-api.com</a>. The key is saved in this browser and sent only to The Odds API.</span>
+    <section class="card om-sourcebar" aria-label="Odds source">
+      <p id="om-status" class="om-status" role="status">Loading odds…</p>
+      <details class="om-details om-own-key" id="om-own-key">
+        <summary>Load fresh odds with your own API key</summary>
+        <div class="om-source">
+          <div class="field">
+            <label for="om-key">The Odds API key</label>
+            <input id="om-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key">
+            <span class="hint">Optional. Get a free key (500 requests a month) at <a href="https://the-odds-api.com/" rel="noopener">the-odds-api.com</a>. The key is saved in this browser and sent only to The Odds API.</span>
+          </div>
+          <div class="field">
+            <label for="om-sport">Sport</label>
+            <select id="om-sport"></select>
+            <span class="hint">Each load uses 2 requests from your quota.</span>
+          </div>
+          <div class="btn-row om-actions">
+            <button class="btn" id="om-load" type="button">Load live odds</button>
+            <button class="btn secondary" id="om-demo" type="button">Use sample odds</button>
+          </div>
         </div>
-        <div class="field">
-          <label for="om-sport">Sport</label>
-          <select id="om-sport"></select>
-          <span class="hint">Each load uses 2 requests from your quota.</span>
-        </div>
-        <div class="btn-row om-actions">
-          <button class="btn" id="om-load" type="button">Load live odds</button>
-          <button class="btn secondary" id="om-demo" type="button">Use sample odds</button>
-        </div>
-      </div>
-      <p id="om-status" class="om-status" role="status"></p>
+      </details>
     </section>
 
     <section class="card om-filters" aria-label="Filters">

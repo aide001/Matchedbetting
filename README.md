@@ -23,6 +23,26 @@ Open `index.html` in a browser, or serve the folder:
 npm start          # serves on http://localhost:8080
 ```
 
+## Showing real odds to every visitor
+
+The oddsmatcher first loads `data/odds.json`. The **Fetch odds** GitHub Actions workflow writes that file
+every 6 hours, so visitors see real odds without an API key. To turn it on:
+
+1. Get a free API key at [the-odds-api.com](https://the-odds-api.com/).
+2. In the repo, go to **Settings → Secrets and variables → Actions → New repository secret**. Name it
+   `ODDS_API_KEY` and paste the key.
+3. Merge this work into the default branch. Scheduled workflows only run there.
+4. Open **Actions → Fetch odds → Run workflow** to fetch the first batch now.
+5. Publish the site with **Settings → Pages**, deploying from the default branch root. Each odds update
+   commits `data/odds.json`, and Pages redeploys.
+
+The workflow fetches the Premier League, the Championship and the Champions League. Each sport uses
+2 requests per run, which is about 370 of the free plan's 500 monthly requests. To change the sports or the
+schedule, edit `ODDS_SPORTS` and the cron line in `.github/workflows/fetch-odds.yml`.
+
+Until `data/odds.json` exists, the page shows clearly labelled sample odds. Visitors can still load fresh
+odds with their own key from the collapsed panel.
+
 ## Tests
 
 The maths in `js/calc.js` and the CSV helpers in `js/csv.js` are plain functions with Node tests:

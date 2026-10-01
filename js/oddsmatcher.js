@@ -73,6 +73,7 @@
   function sourceTag() {
     if (state.source === 'demo') return el('span', 'tag demo', 'SAMPLE ODDS');
     if (state.source === 'live') return el('span', 'tag live', 'LIVE');
+    if (state.source === 'site') return el('span', 'tag site', 'REAL ODDS');
     return '';
   }
 
@@ -125,13 +126,14 @@
 
   function loadDemo() {
     useEvents(MBDemoOdds.makeDemoOdds(Date.now()), 'demo', new Date().toISOString());
-    setStatus([sourceTag(), 'These prices are made up so you can try the oddsmatcher. Add an API key to load real odds.']);
+    setStatus([sourceTag(), 'These prices are made up so you can see how the oddsmatcher works. Real odds appear here once the site\'s odds feed is set up.']);
   }
 
   function loadLive() {
     var key = $('om-key').value.trim();
     var sport = $('om-sport').value;
     if (!key) {
+      $('om-own-key').open = true;
       setStatus(['Paste your API key first. You can get a free one at the-odds-api.com.'], true);
       $('om-key').focus();
       return;
@@ -326,12 +328,33 @@
     render();
   });
 
-  // Start with saved live odds for this sport if there are any, otherwise sample odds.
+  // Odds the site's scheduled job saved (data/odds.json). Shared by every visitor; no key needed.
+  function loadSiteOdds() {
+    return fetch('data/odds.json', { cache: 'no-cache' }).then(function (res) {
+      if (!res.ok) throw new Error('missing');
+      return res.json();
+    }).then(function (data) {
+      var events = [];
+      Object.keys(data.sports || {}).forEach(function (k) {
+        if (Array.isArray(data.sports[k])) events = events.concat(data.sports[k]);
+      });
+      if (!events.length) throw new Error('empty');
+      useEvents(events, 'site', data.fetchedAt);
+      setStatus([sourceTag(), events.length + ' upcoming events. Odds were updated ' + ago(data.fetchedAt) +
+        ' and refresh automatically every few hours.']);
+      return true;
+    });
+  }
+
+  // Start with this browser's own saved live odds, then the site's saved odds, then sample odds.
   var cached = (readJSON(localStorage_get(CACHE_STORE)) || {})[$('om-sport').value];
-  if (cached && Array.isArray(cached.events)) {
+  var cacheFresh = cached && Array.isArray(cached.events) && Date.now() - Date.parse(cached.loadedAt) < 3 * 3600e3;
+  if (cacheFresh) {
     useEvents(cached.events, 'live', cached.loadedAt);
-    setStatus([sourceTag(), 'Showing odds saved ' + ago(cached.loadedAt) + '. Load live odds to refresh.']);
+    setStatus([sourceTag(), 'Showing odds you loaded ' + ago(cached.loadedAt) + '.']);
   } else {
-    loadDemo();
+    loadSiteOdds().catch(function () {
+      loadDemo();
+    });
   }
 })();
