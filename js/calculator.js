@@ -119,7 +119,28 @@
     try { sessionStorage.setItem('mb.prefill', this.dataset.prefill || ''); } catch (err) { /* ignore */ }
   });
 
+  // Values handed over by the oddsmatcher's "Calculate" button.
+  function prefill() {
+    var q = new URLSearchParams(location.search);
+    if (!q.has('backOdds')) {
+      try {
+        q = new URLSearchParams(sessionStorage.getItem('mb.calc.prefill') || '');
+        sessionStorage.removeItem('mb.calc.prefill');
+      } catch (err) { /* storage unavailable */ }
+    }
+    if (!q.has('backOdds')) return;
+    var map = { stake: 'backStake', backOdds: 'backOdds', layOdds: 'layOdds', commission: 'commission' };
+    Object.keys(map).forEach(function (k) {
+      var v = parseFloat(q.get(k));
+      if (!isNaN(v)) $(map[k]).value = v;
+    });
+    var radio = form.querySelector('input[name="betType"][value="' + q.get('type') + '"]');
+    if (radio) radio.checked = true;
+    if (location.search) history.replaceState(null, '', location.pathname);
+  }
+
   restore();
+  prefill();
   form.addEventListener('input', render);
   form.addEventListener('submit', function (e) { e.preventDefault(); });
   $('resetAdjust').addEventListener('click', function () {

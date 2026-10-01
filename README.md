@@ -2,6 +2,12 @@
 
 A static matched betting website with no build step and no dependencies.
 
+- **Oddsmatcher** (`oddsmatcher.html`) pulls UK bookmaker odds and exchange lay odds (Betfair, Smarkets,
+  Matchbook) from [The Odds API](https://the-odds-api.com/) and ranks every back/lay pair by rating for
+  qualifying bets or free bets. Each user pastes their own API key, which is kept in their browser. The free
+  plan allows 500 requests a month, and each load costs 2 (markets `h2h` and `h2h_lay`, region `uk`). The
+  last response for each sport is cached in the browser to save requests. Sample odds are built in so the
+  page works without a key, and they're clearly labelled as sample data.
 - **Calculator** (`calculator.html`) works out lay stakes, liability and profit for qualifying bets and for
   stake-not-returned (SNR) and stake-returned (SR) free bets. It includes exchange commission and has an
   underlay/overlay slider.

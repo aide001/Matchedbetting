@@ -196,3 +196,39 @@ dl.glossary dd { margin: .2rem 0 0; color: var(--muted); }
   .brand { width: 100%; }
   .result-hero .big { font-size: 2.1rem; }
 }
+
+/* Oddsmatcher */
+main.wide { max-width: 1100px; }
+main.wide > .card + .card { margin-top: 1rem; }
+.h-small { font-size: 1.1rem; margin: 0 0 .75rem; }
+.om-source { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; gap: .75rem 1rem; align-items: start; }
+.om-actions { padding-top: 1.65rem; }
+.om-status { margin: .25rem 0 0; font-size: .92rem; color: var(--muted); }
+.om-status.error { color: var(--neg); }
+.om-status .tag { display: inline-block; padding: .05rem .5rem; border-radius: 999px; font-size: .75rem; font-weight: 700; margin-right: .4rem; }
+.tag.demo { background: var(--lay-bg); color: var(--lay); }
+.tag.live { background: color-mix(in srgb, var(--pos) 15%, transparent); color: var(--pos); }
+.om-filters .form-row { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.om-details { border-top: 1px solid var(--border); padding-top: .7rem; margin-top: .4rem; }
+.om-details summary { cursor: pointer; font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip { display: inline-flex; align-items: center; gap: .35rem; border: 1px solid var(--border); border-radius: 999px; padding: .25rem .7rem; font-size: .88rem; cursor: pointer; background: var(--surface); }
+.chip input { width: auto; margin: 0; accent-color: var(--accent); }
+.om-results-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.om-table td { vertical-align: middle; }
+.om-table .sub { display: block; font-size: .78rem; color: var(--muted); }
+.price { display: inline-block; min-width: 3.4rem; text-align: center; font-weight: 700; padding: .15rem .45rem; border-radius: 6px; font-variant-numeric: tabular-nums; }
+.price.back { background: var(--back-bg); color: var(--back); }
+.price.lay { background: var(--lay-bg); color: var(--lay); }
+.rating { display: inline-block; min-width: 4.2rem; text-align: center; font-weight: 700; padding: .2rem .5rem; border-radius: 999px; font-variant-numeric: tabular-nums; background: var(--surface-2); color: var(--muted); }
+.rating.great { background: color-mix(in srgb, var(--pos) 18%, transparent); color: var(--pos); }
+.rating.good { background: color-mix(in srgb, var(--pos) 9%, transparent); color: var(--text); }
+.rating.arb::after { content: " arb"; font-size: .7rem; font-weight: 600; }
+
+@media (max-width: 760px) {
+  .om-source { grid-template-columns: minmax(0, 1fr); }
+  .om-actions { padding-top: 0; }
+}
+.om-table td:nth-child(n+2):nth-child(-n+5) { white-space: normal; min-width: 7.5rem; }
+.om-table td:nth-child(2) { min-width: 10rem; }
+.om-table th, .om-table td { padding-left: .45rem; padding-right: .45rem; }
