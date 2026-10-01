@@ -69,3 +69,19 @@ test('filters by odds, rating, bookmaker, time and search; sorts by chosen ratin
   const snr = filterAndSort(rows, { now: NOW, mode: 'free-snr' });
   assert.equal(snr[0].selection, 'Chelsea'); // long odds extract the most from a free bet
 });
+
+test('filters by exchange, sport and SNR rating; sorts by any column', () => {
+  const ev2 = event('nba', 30, [book('coral', { Lakers: 1.9 }), exch('betfair_ex_uk', { Lakers: 1.95 })]);
+  ev2.sport_key = 'basketball_nba';
+  const rows = buildMatches([
+    event('e1', 2, [book('coral', { Arsenal: 2.0, Chelsea: 6.0 }), exch('smarkets', { Arsenal: 2.02, Chelsea: 6.2 })]),
+    ev2
+  ]);
+  assert.equal(filterAndSort(rows, { now: NOW, exchanges: ['betfair_ex_uk'] }).length, 1);
+  assert.equal(filterAndSort(rows, { now: NOW, sports: ['soccer_epl'] }).length, 2);
+  assert.equal(filterAndSort(rows, { now: NOW, minSnrRating: 70 }).length, 1);
+
+  assert.equal(filterAndSort(rows, { now: NOW, sort: 'time' })[0].sportKey, 'soccer_epl');
+  assert.equal(filterAndSort(rows, { now: NOW, sort: 'time', reverse: true })[0].sportKey, 'basketball_nba');
+  assert.equal(filterAndSort(rows, { now: NOW, sort: 'backOdds' })[0].backOdds, 6.0);
+});

@@ -7,7 +7,7 @@
   <meta name="description" content="Find the closest bookmaker back odds and exchange lay odds for qualifying bets and free bets.">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="wide-page">
   <header class="site-header">
     <nav class="nav">
       <a class="brand" href="index.html">Matched<span>Bet</span></a>
@@ -19,7 +19,7 @@
     </nav>
   </header>
 
-  <main class="wide">
+  <main class="wide om-page">
     <h1>Oddsmatcher</h1>
     <p class="muted">Finds bookmaker prices that are closest to the exchange lay price, so you lose the least on qualifying bets and keep the most from free bets.</p>
 
@@ -46,29 +46,40 @@
       </details>
     </section>
 
-    <section class="card om-filters" aria-label="Filters">
-      <div class="segmented" role="radiogroup" aria-label="Bet type">
-        <input type="radio" name="om-mode" id="om-mode-q" value="qualifying" checked>
-        <label for="om-mode-q">Qualifying bet</label>
-        <input type="radio" name="om-mode" id="om-mode-snr" value="free-snr">
-        <label for="om-mode-snr">Free bet (SNR)</label>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label for="om-stake">Stake (£)</label>
-          <input id="om-stake" type="number" inputmode="decimal" min="0" step="0.01" value="10">
+    <div class="om-layout">
+      <aside class="card om-side" aria-label="Filters">
+        <div class="om-side-head">
+          <h2 class="h-small">Filters</h2>
+          <button class="btn small secondary" id="om-reset" type="button">Reset</button>
         </div>
+
         <div class="field">
-          <label for="om-min">Min back odds</label>
-          <input id="om-min" type="number" inputmode="decimal" min="1" step="0.1" placeholder="Any">
+          <span class="label-like" id="om-mode-label">Rating type</span>
+          <div class="segmented compact" role="radiogroup" aria-labelledby="om-mode-label">
+            <input type="radio" name="om-mode" id="om-mode-q" value="qualifying" checked>
+            <label for="om-mode-q">Normal</label>
+            <input type="radio" name="om-mode" id="om-mode-snr" value="free-snr">
+            <label for="om-mode-snr">SNR</label>
+          </div>
+          <span class="hint">Normal for qualifying bets, SNR for free bets.</span>
         </div>
-        <div class="field">
-          <label for="om-max">Max back odds</label>
-          <input id="om-max" type="number" inputmode="decimal" min="1" step="0.1" placeholder="Any">
-        </div>
-        <div class="field">
-          <label for="om-rating">Min rating (%)</label>
-          <input id="om-rating" type="number" inputmode="decimal" min="0" max="120" step="1" placeholder="Any">
+        <div class="form-row two">
+          <div class="field">
+            <label for="om-rating">Min rating %</label>
+            <input id="om-rating" type="number" inputmode="decimal" min="0" max="120" step="1" placeholder="Any">
+          </div>
+          <div class="field">
+            <label for="om-stake">Stake (£)</label>
+            <input id="om-stake" type="number" inputmode="decimal" min="0" step="0.01" value="10">
+          </div>
+          <div class="field">
+            <label for="om-min">Min odds</label>
+            <input id="om-min" type="number" inputmode="decimal" min="1" step="0.1" placeholder="Any">
+          </div>
+          <div class="field">
+            <label for="om-max">Max odds</label>
+            <input id="om-max" type="number" inputmode="decimal" min="1" step="0.1" placeholder="Any">
+          </div>
         </div>
         <div class="field">
           <label for="om-hours">Starts within</label>
@@ -84,48 +95,93 @@
           <label for="om-search">Search</label>
           <input id="om-search" type="search" placeholder="Team or bookmaker">
         </div>
-      </div>
-      <details class="om-details">
-        <summary>Bookmakers <span id="om-book-count" class="muted"></span></summary>
-        <div class="btn-row" style="margin:.6rem 0">
-          <button class="btn small secondary" type="button" id="om-books-all">Select all</button>
-          <button class="btn small secondary" type="button" id="om-books-none">Clear</button>
-        </div>
-        <div class="chips" id="om-books"></div>
-      </details>
-      <details class="om-details">
-        <summary>Exchange commission</summary>
-        <div class="form-row" id="om-commissions" style="margin-top:.6rem"></div>
-      </details>
-    </section>
 
-    <section class="card" aria-labelledby="results-h">
-      <div class="om-results-head">
-        <h2 id="results-h" class="h-small">Matches</h2>
-        <span class="muted" id="om-count"></span>
-      </div>
-      <div class="table-wrap">
-        <table class="om-table">
-          <thead>
-            <tr>
-              <th class="num">Rating</th>
-              <th>Event</th>
-              <th>Selection</th>
-              <th>Back</th>
-              <th>Lay</th>
-              <th class="num" id="om-result-h">Result</th>
-              <th class="num">Liability</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="om-rows"></tbody>
-        </table>
-      </div>
-      <div class="btn-row" style="margin-top:1rem;justify-content:center">
-        <button class="btn secondary" id="om-more" type="button" hidden>Show more</button>
-      </div>
-      <p class="hint muted" style="margin-top:1rem">Prices move constantly. Always check the odds on the bookmaker and exchange before you place each bet, and make sure there is enough money available to lay at that price. Ratings over 100% are arbs, where both bets together make a profit.</p>
-    </section>
+        <details class="om-details" open>
+          <summary>Sports <span id="om-sport-count" class="muted"></span></summary>
+          <div class="checklist" id="om-sports"></div>
+        </details>
+        <details class="om-details">
+          <summary>Bookmakers <span id="om-book-count" class="muted"></span></summary>
+          <div class="btn-row" style="margin:.5rem 0">
+            <button class="btn small secondary" type="button" id="om-books-all">All</button>
+            <button class="btn small secondary" type="button" id="om-books-none">None</button>
+          </div>
+          <div class="checklist" id="om-books"></div>
+        </details>
+        <details class="om-details">
+          <summary>Exchanges <span id="om-ex-count" class="muted"></span></summary>
+          <p class="hint muted" style="margin:.4rem 0">Tick to include. Set your commission rate.</p>
+          <div class="checklist" id="om-exchanges"></div>
+        </details>
+      </aside>
+
+      <section class="card om-main" aria-labelledby="results-h">
+        <div class="om-results-head">
+          <h2 id="results-h" class="h-small">Matches</h2>
+          <span class="muted" id="om-count"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="om-table">
+            <thead>
+              <tr>
+                <th><button class="sort" type="button" data-sort="time">Date / time</button></th>
+                <th>Event</th>
+                <th>Bet</th>
+                <th class="num"><button class="sort" type="button" data-sort="rating">Rating</button></th>
+                <th class="num"><button class="sort" type="button" data-sort="snrRating">SNR</button></th>
+                <th>Bookmaker</th>
+                <th class="num"><button class="sort" type="button" data-sort="backOdds">Back</button></th>
+                <th>Exchange</th>
+                <th class="num">Lay</th>
+                <th><span class="visually-hidden">Calculator</span></th>
+              </tr>
+            </thead>
+            <tbody id="om-rows"></tbody>
+          </table>
+        </div>
+        <div class="btn-row" style="margin-top:1rem;justify-content:center">
+          <button class="btn secondary" id="om-more" type="button" hidden>Show more</button>
+        </div>
+        <p class="hint muted" style="margin-top:1rem">Click a row to work out your lay stake. Prices move constantly, so check the odds on both sites before you place each bet, and make sure there is enough money available to lay at that price. Ratings over 100% are arbs.</p>
+      </section>
+    </div>
+
+    <dialog class="om-dialog" id="om-calc" aria-labelledby="om-calc-title">
+      <form method="dialog" class="om-dialog-inner" id="om-calc-form" novalidate>
+        <div class="om-dialog-head">
+          <div>
+            <h2 id="om-calc-title" class="h-small"></h2>
+            <p class="muted" id="om-calc-sub" style="margin:0"></p>
+          </div>
+          <button class="btn small secondary" value="close" aria-label="Close calculator">Close</button>
+        </div>
+        <div class="segmented compact" role="radiogroup" aria-label="Bet type">
+          <input type="radio" name="om-c-type" id="om-c-q" value="qualifying" checked>
+          <label for="om-c-q">Qualifying</label>
+          <input type="radio" name="om-c-type" id="om-c-snr" value="free-snr">
+          <label for="om-c-snr">Free bet SNR</label>
+          <input type="radio" name="om-c-type" id="om-c-sr" value="free-sr">
+          <label for="om-c-sr">Free bet SR</label>
+        </div>
+        <div class="form-row four">
+          <div class="field"><label for="om-c-stake">Stake (£)</label><input id="om-c-stake" type="number" inputmode="decimal" min="0" step="0.01"></div>
+          <div class="field back-field"><label for="om-c-back" id="om-c-back-label">Back odds</label><input id="om-c-back" type="number" inputmode="decimal" min="1.01" step="0.01"></div>
+          <div class="field lay-field"><label for="om-c-lay" id="om-c-lay-label">Lay odds</label><input id="om-c-lay" type="number" inputmode="decimal" min="1.01" step="0.01"></div>
+          <div class="field"><label for="om-c-comm">Commission %</label><input id="om-c-comm" type="number" inputmode="decimal" min="0" max="99" step="0.1"></div>
+        </div>
+        <div class="instruction" id="om-c-instruction"></div>
+        <div class="stats">
+          <div class="stat"><div class="label">Lay stake</div><div class="value" id="om-c-laystake">–</div></div>
+          <div class="stat"><div class="label">Liability</div><div class="value" id="om-c-liability">–</div></div>
+          <div class="stat"><div class="label">If bookmaker bet wins</div><div class="value" id="om-c-backwin">–</div></div>
+          <div class="stat"><div class="label">If exchange bet wins</div><div class="value" id="om-c-laywin">–</div></div>
+        </div>
+        <div class="btn-row" style="margin-top:1rem">
+          <a class="btn" id="om-c-log" href="tracker.html">Log in tracker</a>
+          <a class="btn secondary" id="om-c-full" href="calculator.html">Open full calculator</a>
+        </div>
+      </form>
+    </dialog>
   </main>
 
   <footer class="site-footer">

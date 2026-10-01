@@ -169,7 +169,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .range-row input[type="range"] { padding: 0; accent-color: var(--accent); }
 
 /* Tables */
-.table-wrap { overflow-x: auto; }
+.table-wrap { overflow-x: auto; position: relative; }
 table { width: 100%; border-collapse: collapse; font-size: .92rem; }
 th, td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
 th { color: var(--muted); font-weight: 600; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; }
@@ -235,3 +235,62 @@ main.wide > .card + .card { margin-top: 1rem; }
 .om-table td:nth-child(n+2):nth-child(-n+5) { white-space: normal; min-width: 7.5rem; }
 .om-table td:nth-child(2) { min-width: 10rem; }
 .om-table th, .om-table td { padding-left: .45rem; padding-right: .45rem; }
+
+/* Oddsmatcher: sidebar + table layout */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+main.wide.om-page { max-width: 1440px; }
+.om-layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 1rem; align-items: start; margin-top: 1rem; }
+.om-side { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 4.5rem); max-height: calc(100vh - 5.5rem); overflow-y: auto; padding: 1rem; }
+.om-side .field { margin-bottom: .75rem; }
+.om-side-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+.om-side-head .h-small { margin: 0; }
+.label-like { font-weight: 600; font-size: .9rem; }
+.form-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 .6rem; }
+.form-row.four { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.segmented.compact { margin-bottom: .25rem; }
+.segmented.compact label { padding: .25rem .75rem; font-size: .85rem; }
+.checklist { display: flex; flex-direction: column; gap: .15rem; margin-top: .4rem; }
+.checklist label { display: flex; align-items: center; gap: .5rem; font-size: .9rem; padding: .2rem 0; cursor: pointer; }
+.checklist input[type="checkbox"] { width: auto; margin: 0; accent-color: var(--accent); }
+.checklist .comm { margin-left: auto; width: 4.2rem; padding: .2rem .4rem; font-size: .85rem; }
+.om-main { padding: 1rem; }
+
+.om-table { font-size: .88rem; }
+.om-table th { padding: .5rem .45rem; }
+.om-table td { padding: .45rem; white-space: nowrap; }
+.om-table td.ev { white-space: normal; min-width: 11rem; }
+.om-table td.bet { white-space: normal; min-width: 6rem; }
+.om-table tbody tr { cursor: pointer; }
+.om-table tbody tr:hover td { background: var(--surface-2); }
+.om-table tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.om-table .when { font-variant-numeric: tabular-nums; }
+.om-table .when strong { display: block; }
+.sort { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; cursor: pointer; }
+.sort:hover { color: var(--text); }
+.sort[aria-sort]::after { content: " ▼"; font-size: .7em; }
+.sort[aria-sort="ascending"]::after { content: " ▲"; }
+.sort:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.price { min-width: 3.2rem; }
+.rating { min-width: 3.9rem; padding: .15rem .45rem; font-size: .85rem; }
+.rating.arb::after { content: ""; }
+.rating.arb { background: var(--pos); color: var(--accent-contrast); }
+.calc-btn { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 6px; padding: .25rem .45rem; cursor: pointer; line-height: 0; }
+.calc-btn:hover { border-color: var(--accent); color: var(--accent); }
+.calc-btn svg { width: 16px; height: 16px; }
+
+.om-dialog { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); padding: 0; width: min(560px, calc(100vw - 32px)); }
+.om-dialog::backdrop { background: rgba(10, 15, 20, .55); }
+.om-dialog-inner { padding: 1.25rem; }
+.om-dialog-head { display: flex; justify-content: space-between; gap: 1rem; align-items: start; margin-bottom: 1rem; }
+.om-dialog-head .h-small { margin: 0 0 .2rem; }
+.back-field input { border-color: var(--back); background: var(--back-bg); }
+.lay-field input { border-color: var(--lay); background: var(--lay-bg); }
+
+@media (max-width: 900px) {
+  .om-layout { grid-template-columns: minmax(0, 1fr); }
+  .om-side { position: static; max-height: none; }
+}
+.wide-page .nav { max-width: 1440px; }
+.check-row { display: flex; align-items: center; gap: .35rem; }
+.check-row label { flex: 1; }
+.check-row .comm { margin-left: 0; }

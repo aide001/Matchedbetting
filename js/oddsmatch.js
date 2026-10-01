@@ -110,9 +110,18 @@
     return rows;
   }
 
+  var SORTS = {
+    rating: function (a, b) { return b.rating - a.rating; },
+    snrRating: function (a, b) { return b.snrRating - a.snrRating; },
+    time: function (a, b) { return Date.parse(a.commenceTime) - Date.parse(b.commenceTime); },
+    backOdds: function (a, b) { return b.backOdds - a.backOdds; }
+  };
+
   /*
-   * filters: { mode: 'qualifying'|'free-snr', minOdds, maxOdds, minRating,
-   *            bookmakers: [keys] (empty/undefined = all), search, hoursAhead, now (ms) }
+   * filters: { mode: 'qualifying'|'free-snr' (default sort and minRating target),
+   *            sort: 'rating'|'snrRating'|'time'|'backOdds', reverse: bool,
+   *            minOdds, maxOdds, minRating, minSnrRating, hoursAhead, search, now (ms),
+   *            bookmakers / exchanges / sports: [keys] (empty/undefined = all) }
    */
   function filterAndSort(rows, filters) {
     var f = filters || {};
@@ -120,6 +129,9 @@
     var search = (f.search || '').trim().toLowerCase();
     var ratingKey = f.mode === 'free-snr' ? 'snrRating' : 'rating';
     var books = f.bookmakers && f.bookmakers.length ? f.bookmakers : null;
+    var exchanges = f.exchanges && f.exchanges.length ? f.exchanges : null;
+    var sports = f.sports && f.sports.length ? f.sports : null;
+    var sortFn = SORTS[f.sort] || SORTS[ratingKey];
     return rows.filter(function (r) {
       var start = Date.parse(r.commenceTime);
       if (!isNaN(start)) {
@@ -129,11 +141,16 @@
       if (f.minOdds > 0 && r.backOdds < f.minOdds) return false;
       if (f.maxOdds > 0 && r.backOdds > f.maxOdds) return false;
       if (f.minRating > 0 && !(r[ratingKey] >= f.minRating)) return false;
+      if (f.minSnrRating > 0 && !(r.snrRating >= f.minSnrRating)) return false;
       if (books && books.indexOf(r.bookmakerKey) === -1) return false;
+      if (exchanges && exchanges.indexOf(r.exchangeKey) === -1) return false;
+      if (sports && sports.indexOf(r.sportKey) === -1) return false;
       if (search && (r.event + ' ' + r.selection + ' ' + r.bookmaker).toLowerCase().indexOf(search) === -1) return false;
       return true;
     }).sort(function (a, b) {
-      return (b[ratingKey] - a[ratingKey]) || (Date.parse(a.commenceTime) - Date.parse(b.commenceTime));
+      var d = sortFn(a, b);
+      if (f.reverse) d = -d;
+      return d || SORTS.time(a, b);
     });
   }
 
@@ -142,6 +159,7 @@
     isExchange: isExchange,
     buildMatches: buildMatches,
     filterAndSort: filterAndSort,
+    SORTS: Object.keys(SORTS),
     freeBetRating: freeBetRating
   };
 
