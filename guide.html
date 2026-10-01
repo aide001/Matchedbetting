@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beginner's guide – MatchedBet</title>
+  <meta name="description" content="A step-by-step beginner's guide to matched betting, with a worked example and glossary.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html">Matched<span>Bet</span></a>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="calculator.html">Calculator</a>
+      <a class="nav-link" href="tracker.html">Profit tracker</a>
+      <a class="nav-link" href="guide.html" aria-current="page">Guide</a>
+    </nav>
+  </header>
+
+  <main class="prose">
+    <h1>Beginner's guide to matched betting</h1>
+    <p class="muted">Everything you need to complete your first offer, with a worked example.</p>
+
+    <nav class="toc" aria-label="Contents">
+      <strong>Contents</strong>
+      <ol>
+        <li><a href="#what">What is matched betting?</a></li>
+        <li><a href="#need">What you need</a></li>
+        <li><a href="#example">Worked example</a></li>
+        <li><a href="#types">Free bet types</a></li>
+        <li><a href="#mistakes">Common mistakes</a></li>
+        <li><a href="#gubbing">Account restrictions ("gubbing")</a></li>
+        <li><a href="#tax">Tax</a></li>
+        <li><a href="#glossary">Glossary</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what">What is matched betting?</h2>
+    <p>Bookmakers give new and existing customers free bets to win their business. Matched betting uses a
+      <strong>betting exchange</strong> to bet against the outcome you backed at the bookmaker. When the stakes are
+      sized correctly, a win on one side cancels out a loss on the other.</p>
+    <p>The qualifying bet usually costs a few pence. The free bet then returns most of its face value as profit,
+      whatever the result of the event.</p>
+
+    <h2 id="need">What you need</h2>
+    <ul>
+      <li>A betting exchange account, such as Betfair, Smarkets, Matchbook or Betdaq.</li>
+      <li>Bookmaker accounts that have sign-up or reload offers.</li>
+      <li>Some starting funds. £50–£100 is enough because your exchange balance has to cover the lay <em>liability</em>.</li>
+      <li>A way to log your bets. The <a href="tracker.html">profit tracker</a> does this.</li>
+    </ul>
+
+    <h2 id="example">Worked example: "Bet £10, get a £10 free bet"</h2>
+    <h3>Step 1: the qualifying bet</h3>
+    <p>You find a match where the bookmaker offers Arsenal to win at <code>3.0</code> and the exchange lets you lay
+      Arsenal at <code>3.1</code>. Exchange commission is 2%.</p>
+    <ul>
+      <li>Back £10 on Arsenal at 3.0 at the bookmaker.</li>
+      <li>Lay <strong>£9.74</strong> on Arsenal at 3.1 at the exchange. Your liability is £20.45.</li>
+    </ul>
+    <p>Arsenal win: +£20.00 at the bookmaker and −£20.45 at the exchange, so <strong>−£0.45</strong>.<br>
+      Arsenal don't win: −£10.00 at the bookmaker and +£9.55 at the exchange after commission, so <strong>−£0.45</strong>.</p>
+    <p>You lose 45p whatever happens and unlock the free bet.</p>
+
+    <h3>Step 2: the free bet (stake not returned)</h3>
+    <p>For free bets, higher odds extract more value. Say you back £10 free at <code>6.0</code> and lay at <code>6.2</code>:</p>
+    <ul>
+      <li>Lay <strong>£8.09</strong>, with a liability of £42.07.</li>
+      <li>Back wins: +£50.00 − £42.07 = <strong>+£7.93</strong>.</li>
+      <li>Lay wins: £8.09 less 2% commission = <strong>+£7.93</strong>.</li>
+    </ul>
+    <p>Your overall profit for the offer is about <strong>£7.48</strong>, with no reliance on luck.
+      <a href="calculator.html">Try these numbers in the calculator.</a></p>
+
+    <h2 id="types">Free bet types</h2>
+    <p><strong>Stake not returned (SNR)</strong> is the most common type. A winning free bet pays the winnings only, so
+      you'll usually keep 70–80% of its face value.</p>
+    <p><strong>Stake returned (SR)</strong> pays the winnings and the stake. It's rare, but you can keep close to 100%.</p>
+
+    <h2 id="mistakes">Common mistakes</h2>
+    <ul>
+      <li><strong>Backing at the exchange instead of laying.</strong> Check that the bet slip is pink (lay), not blue (back).</li>
+      <li><strong>Odds moving before you lay.</strong> Place the back bet first, then lay straight away. Recalculate if the odds changed.</li>
+      <li><strong>Not reading the terms.</strong> Minimum odds, eligible markets and expiry dates all apply.</li>
+      <li><strong>Partially matched lay bets.</strong> Make sure the full lay stake gets matched. Check the "unmatched" section.</li>
+      <li><strong>Not enough exchange funds.</strong> Before you place the back bet, check you can cover the liability.</li>
+    </ul>
+
+    <h2 id="gubbing">Account restrictions ("gubbing")</h2>
+    <p>Bookmakers may restrict accounts that only take offers. To keep accounts healthy, people often place the
+      occasional normal-looking bet, round their stakes (£10 rather than £9.87), and avoid obscure markets.</p>
+
+    <h2 id="tax">Tax</h2>
+    <p>In the UK, gambling winnings, including matched betting profits, aren't usually subject to income tax or
+      capital gains tax. Rules vary by country and circumstance, so check your local rules or ask a professional.</p>
+
+    <h2 id="glossary">Glossary</h2>
+    <dl class="glossary">
+      <dt>Back bet</dt><dd>A bet that something <em>will</em> happen, placed at a bookmaker or exchange.</dd>
+      <dt>Lay bet</dt><dd>A bet that something <em>won't</em> happen, placed at an exchange. You act as the bookmaker.</dd>
+      <dt>Liability</dt><dd>What you lose if a lay bet loses: lay stake × (lay odds − 1). Your exchange balance must cover it.</dd>
+      <dt>Commission</dt><dd>The exchange's cut of your net winnings on a market, usually 0–5%.</dd>
+      <dt>Qualifying bet</dt><dd>A bet with your own money that unlocks an offer.</dd>
+      <dt>Qualifying loss</dt><dd>The small amount you lose matching a qualifying bet.</dd>
+      <dt>Rating</dt><dd>How close a back/lay match is to break-even. 100% means no loss on a qualifying bet.</dd>
+      <dt>Underlay / overlay</dt><dd>Laying less or more than the balanced stake, so more of the profit lands on one outcome.</dd>
+      <dt>Oddsmatcher</dt><dd>A tool that searches for close back and lay odds across bookmakers and exchanges.</dd>
+      <dt>Gubbed</dt><dd>When a bookmaker limits your account or stops you receiving promotions.</dd>
+    </dl>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+</body>
+</html>

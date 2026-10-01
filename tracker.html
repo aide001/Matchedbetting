@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profit tracker – MatchedBet</title>
+  <meta name="description" content="Track your matched betting profit by bookmaker and month. Your data stays in your browser.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html">Matched<span>Bet</span></a>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="calculator.html">Calculator</a>
+      <a class="nav-link" href="tracker.html" aria-current="page">Profit tracker</a>
+      <a class="nav-link" href="guide.html">Guide</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Profit tracker</h1>
+    <p class="muted">Log every bet you complete. Your entries are saved in this browser only, so export a CSV backup now and then.</p>
+
+    <div class="grid cols-3" style="margin-bottom:1rem">
+      <div class="card stat"><div class="label">Total profit</div><div class="value" id="s-total">£0.00</div></div>
+      <div class="card stat"><div class="label">This month</div><div class="value" id="s-month">£0.00</div></div>
+      <div class="card stat"><div class="label">Bets logged</div><div class="value" id="s-count">0</div></div>
+    </div>
+
+    <div class="grid cols-2">
+      <form class="card" id="bet-form">
+        <h2>Add a bet</h2>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-date">Date</label>
+            <input id="f-date" type="date" required>
+          </div>
+          <div class="field">
+            <label for="f-type">Type</label>
+            <select id="f-type">
+              <option value="qualifying">Qualifying bet</option>
+              <option value="free-snr">Free bet (SNR)</option>
+              <option value="free-sr">Free bet (SR)</option>
+              <option value="casino">Casino offer</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-bookmaker">Bookmaker</label>
+            <input id="f-bookmaker" list="bookmaker-list" required placeholder="e.g. Bet365">
+            <datalist id="bookmaker-list"></datalist>
+          </div>
+          <div class="field">
+            <label for="f-exchange">Exchange</label>
+            <input id="f-exchange" list="exchange-list" placeholder="e.g. Betfair">
+            <datalist id="exchange-list"></datalist>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-event">Event / selection</label>
+          <input id="f-event" placeholder="e.g. Arsenal v Chelsea – Arsenal">
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-stake">Back stake (£)</label>
+            <input id="f-stake" type="number" inputmode="decimal" step="0.01" min="0">
+          </div>
+          <div class="field">
+            <label for="f-profit">Profit / loss (£)</label>
+            <input id="f-profit" type="number" inputmode="decimal" step="0.01" required>
+            <span class="hint">Use a minus sign for a loss.</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-notes">Notes</label>
+          <input id="f-notes" placeholder="Optional">
+        </div>
+        <button class="btn" type="submit">Add bet</button>
+      </form>
+
+      <section class="card">
+        <h2>Profit by bookmaker</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Bookmaker</th><th class="num">Bets</th><th class="num">Profit</th></tr></thead>
+            <tbody id="by-bookie"></tbody>
+          </table>
+        </div>
+        <h2 style="margin-top:1.5rem">Profit by month</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Month</th><th class="num">Bets</th><th class="num">Profit</th></tr></thead>
+            <tbody id="by-month"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+        <h2 style="margin:0">All bets</h2>
+        <div class="btn-row">
+          <button class="btn small secondary" id="export-csv" type="button">Export CSV</button>
+          <label class="btn small secondary" for="import-csv" style="margin:0">Import CSV</label>
+          <input id="import-csv" type="file" accept=".csv,text/csv" hidden>
+          <button class="btn small danger" id="clear-all" type="button">Delete all</button>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:1rem">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Bookmaker</th><th>Exchange</th><th>Event</th><th>Type</th>
+              <th class="num">Stake</th><th class="num">Profit</th><th>Notes</th><th></th></tr>
+          </thead>
+          <tbody id="bets"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="js/csv.js"></script>
+  <script src="js/tracker.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator – MatchedBet</title>
+  <meta name="description" content="Matched betting calculator for qualifying bets and free bets (SNR and SR), including exchange commission.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html">Matched<span>Bet</span></a>
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="calculator.html" aria-current="page">Calculator</a>
+      <a class="nav-link" href="tracker.html">Profit tracker</a>
+      <a class="nav-link" href="guide.html">Guide</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Matched betting calculator</h1>
+    <p class="muted">Enter your bookmaker bet and the exchange odds. The calculator gives the lay stake that returns the same profit whatever the result.</p>
+
+    <div class="grid cols-2">
+      <form class="card" id="calc-form" novalidate>
+        <div class="segmented" role="radiogroup" aria-label="Bet type">
+          <input type="radio" name="betType" id="bt-q" value="qualifying" checked>
+          <label for="bt-q">Qualifying bet</label>
+          <input type="radio" name="betType" id="bt-snr" value="free-snr">
+          <label for="bt-snr">Free bet (SNR)</label>
+          <input type="radio" name="betType" id="bt-sr" value="free-sr">
+          <label for="bt-sr">Free bet (SR)</label>
+        </div>
+        <p class="hint muted" id="bet-type-hint" style="margin-top:-.5rem"></p>
+
+        <div class="bet-side back">
+          <h3>Back bet (bookmaker)</h3>
+          <div class="form-row">
+            <div class="field">
+              <label for="backStake">Stake (£)</label>
+              <input id="backStake" type="number" inputmode="decimal" min="0" step="0.01" value="10">
+            </div>
+            <div class="field">
+              <label for="backOdds">Back odds</label>
+              <input id="backOdds" type="number" inputmode="decimal" min="1.01" step="0.01" value="3.0">
+            </div>
+          </div>
+        </div>
+
+        <div class="bet-side lay">
+          <h3>Lay bet (exchange)</h3>
+          <div class="form-row">
+            <div class="field">
+              <label for="layOdds">Lay odds</label>
+              <input id="layOdds" type="number" inputmode="decimal" min="1.01" step="0.01" value="3.1">
+            </div>
+            <div class="field">
+              <label for="commission">Commission (%)</label>
+              <input id="commission" type="number" inputmode="decimal" min="0" max="99" step="0.1" value="2">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="layAdjust">Lay stake adjustment: <span id="layAdjustLabel">Balanced</span></label>
+          <div class="range-row">
+            <input id="layAdjust" type="range" min="50" max="150" step="1" value="100" aria-describedby="layAdjustHint">
+            <button type="button" class="btn small secondary" id="resetAdjust">Reset</button>
+          </div>
+          <span class="hint" id="layAdjustHint">Below 100% underlays, so you make more if the bookmaker bet wins. Above 100% overlays, so you make more if it loses.</span>
+        </div>
+      </form>
+
+      <section class="card" aria-live="polite" id="results">
+        <div class="result-hero">
+          <div class="label">Guaranteed profit</div>
+          <div class="big" id="r-profit">–</div>
+          <div class="muted" id="r-rating"></div>
+        </div>
+        <div class="instruction" id="r-instruction"></div>
+        <div class="stats">
+          <div class="stat"><div class="label">Lay stake</div><div class="value" id="r-lay">–</div></div>
+          <div class="stat"><div class="label">Liability</div><div class="value" id="r-liability">–</div></div>
+          <div class="stat"><div class="label">If bookmaker bet wins</div><div class="value" id="r-backwin">–</div></div>
+          <div class="stat"><div class="label">If exchange bet wins</div><div class="value" id="r-laywin">–</div></div>
+        </div>
+        <ul class="errors" id="r-errors" hidden></ul>
+        <p class="hint muted" style="margin-top:1rem">Your exchange balance must cover the liability before you can place the lay bet.</p>
+        <div class="btn-row" style="margin-top:1rem">
+          <a class="btn secondary" id="log-bet" href="tracker.html">Log this bet in the tracker</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="js/calc.js"></script>
+  <script src="js/calculator.js"></script>
+</body>
+</html>
