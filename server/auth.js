@@ -67,6 +67,33 @@ function deleteOtherSessions(db, userId, keepToken) {
 
 function purgeExpiredSessions(db, now = Date.now()) {
   db.prepare('DELETE FROM sessions WHERE expires_at <= ?').run(now);
+  db.prepare('DELETE FROM password_resets WHERE expires_at <= ?').run(now);
+}
+
+const RESET_TTL_MS = 60 * 60e3;
+
+// One-time password reset token. Any earlier unused tokens for the user stop working.
+function createResetToken(db, userId, now = Date.now()) {
+  const token = crypto.randomBytes(32).toString('base64url');
+  db.prepare('DELETE FROM password_resets WHERE user_id = ?').run(userId);
+  db.prepare('INSERT INTO password_resets (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)')
+    .run(hashToken(token), userId, now, now + RESET_TTL_MS);
+  return token;
+}
+
+// Returns the user id for a valid token and deletes it, so it can only be used once.
+function consumeResetToken(db, token, now = Date.now()) {
+  if (typeof token !== 'string' || !token) return null;
+  const row = db.prepare('SELECT user_id, expires_at FROM password_resets WHERE token_hash = ?').get(hashToken(token));
+  if (!row) return null;
+  db.prepare('DELETE FROM password_resets WHERE token_hash = ?').run(hashToken(token));
+  return row.expires_at > now ? row.user_id : null;
+}
+
+function resetTokenIsValid(db, token, now = Date.now()) {
+  if (typeof token !== 'string' || !token) return false;
+  const row = db.prepare('SELECT expires_at FROM password_resets WHERE token_hash = ?').get(hashToken(token));
+  return !!row && row.expires_at > now;
 }
 
 // Fixed-window attempt counter, kept in memory.
@@ -99,5 +126,9 @@ module.exports = {
   deleteSession,
   deleteOtherSessions,
   purgeExpiredSessions,
+  RESET_TTL_MS,
+  createResetToken,
+  consumeResetToken,
+  resetTokenIsValid,
   createRateLimiter
 };

@@ -41,6 +41,13 @@ CREATE TABLE IF NOT EXISTS offer_progress (
   updated_at TEXT NOT NULL,
   PRIMARY KEY (user_id, offer_id)
 );
+CREATE TABLE IF NOT EXISTS password_resets (
+  token_hash TEXT PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at INTEGER NOT NULL,
+  expires_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS password_resets_user ON password_resets(user_id);
 CREATE TABLE IF NOT EXISTS kv (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL

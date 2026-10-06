@@ -15,6 +15,7 @@ A matched betting website with member accounts. It runs on Node.js with SQLite a
   - Register with name, email, password and an 18+ confirmation.
   - Log in and out.
   - Change your name or password. Changing the password signs out your other devices.
+  - Forgot password: an emailed one-time link, sent through Brevo, that expires after 1 hour.
   - Delete your account and all its data.
 - **Dashboard:** total and monthly profit, bets logged, offer progress, the next offers to do and recent bets.
 - **Oddsmatcher:**
@@ -45,6 +46,10 @@ npm test                      # unit tests and server API tests
 | `DATABASE_PATH` | `data/matchedbet.db` | SQLite file. Put it on persistent storage in production. |
 | `NODE_ENV` | | Set to `production` to mark session cookies `Secure` (needs HTTPS). |
 | `TRUST_PROXY` | | Set to `1` behind a reverse proxy or load balancer, so rate limits use the real client IP. |
+| `APP_URL` | | The site's public address, such as `https://matchedbet.co.uk`. Used for links in emails. Required in production for password reset emails. |
+| `BREVO_API_KEY` | | Brevo API key for sending email. Without it, reset emails are written to the server log instead. |
+| `MAIL_FROM_EMAIL` | | Sender address, such as `no-reply@matchedbet.co.uk`. Must be a sender or domain verified in Brevo. |
+| `MAIL_FROM_NAME` | `MatchedBet` | Sender name shown in inboxes. |
 | `ODDS_API_KEY` | | Key from [the-odds-api.com](https://the-odds-api.com/). Without it the oddsmatcher shows labelled sample odds. |
 | `ODDS_SPORTS` | `soccer_epl,soccer_efl_champ,soccer_uefa_champs_league` | Sports to fetch. |
 | `ODDS_REFRESH_MINUTES` | `360` | How long fetched odds are reused before refreshing. |
@@ -53,6 +58,26 @@ The server fetches odds only when a member opens the oddsmatcher and the cached 
 `ODDS_REFRESH_MINUTES`. Each refresh costs 2 requests per sport. With the defaults, that's at most about
 370 a month, which is within the free plan's 500. For fresher odds, use a paid plan and lower the
 refresh time.
+
+## Setting up password reset emails (Brevo)
+
+1. In Brevo, open **Senders, Domains & Dedicated IPs → Domains** and add your domain. Add the DNS records
+   Brevo shows you (DKIM, plus its verification code and DMARC if asked) at your domain registrar, then wait
+   for Brevo to show the domain as verified. This keeps the emails out of spam.
+2. Under **Senders**, add the address you'll send from, such as `no-reply@yourdomain`.
+3. Under **SMTP & API → API Keys**, create an API key. Use an API key, not an SMTP key.
+4. On the server, set `BREVO_API_KEY`, `MAIL_FROM_EMAIL` and `APP_URL`, then restart.
+5. Test it: on the login page, choose **Forgot your password?** and enter your own email. If nothing
+   arrives, the server log shows Brevo's error message.
+
+Brevo's transactional email logs, under **Transactional → Logs**, show whether each email was delivered.
+
+How the reset works:
+- The page always gives the same answer, so it can't be used to check whether an email has an account.
+- Requests are limited to 3 an hour per email and 5 every 15 minutes per IP.
+- The link holds a random token, and only a hash of it is stored. It works once and expires after
+  1 hour, and a newer request cancels older links.
+- Setting a new password signs the account out everywhere else and logs the person in.
 
 ## Deploying
 
@@ -63,7 +88,7 @@ Example for Render, Railway or Fly.io:
 
 1. Create a web service from this repository, using the Dockerfile.
 2. Attach a persistent volume mounted at `/data`.
-3. Set `NODE_ENV=production`, `TRUST_PROXY=1` and `ODDS_API_KEY`.
+3. Set `NODE_ENV=production`, `TRUST_PROXY=1`, `APP_URL`, `ODDS_API_KEY` and the Brevo settings above.
 4. Make sure the site is served over HTTPS. These platforms do this by default.
 
 Back up the database file regularly. It holds every member's account and bets.
@@ -81,8 +106,6 @@ Back up the database file regularly. It holds every member's account and bets.
 
 ## Not built yet
 
-- **Password reset by email.** This needs an email provider such as Postmark, SES or Resend. Until then, a
-  member who forgets their password can't recover the account.
 - **Email verification.**
 - **Paid plans.** OddsMonkey and Outplayed charge a subscription, which would need a payment provider
   such as Stripe.

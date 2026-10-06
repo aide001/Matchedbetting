@@ -219,3 +219,112 @@ test('odds: sample without a key, live and cached with one', async () => {
     assert.equal(calls, 1, 'second request is served from the cache');
   } finally { await sample.close(); await live.close(); }
 });
+
+function fakeMailer() {
+  const sent = [];
+  return { sent, send: async (m) => { sent.push(m); return {}; } };
+}
+
+test('forgot password: same reply for unknown emails; reset link works once', async () => {
+  const mailer = fakeMailer();
+  const s = await startServer({ mailer, appUrl: 'https://matchedbet.example/' });
+  const a1 = client(s.base);
+  const a2 = client(s.base);
+  try {
+    await a1('POST', '/api/auth/register', ALICE);
+    await a2('POST', '/api/auth/login', { email: ALICE.email, password: ALICE.password });
+
+    const anon = client(s.base);
+    let r = await anon('POST', '/api/auth/forgot', { email: 'nobody@example.com' });
+    assert.equal(r.status, 200);
+    assert.equal(mailer.sent.length, 0);
+    assert.equal((await anon('POST', '/api/auth/forgot', { email: 'not-an-email' })).status, 400);
+
+    r = await anon('POST', '/api/auth/forgot', { email: 'ALICE@example.com' });
+    assert.equal(r.status, 200);
+    assert.equal(mailer.sent.length, 1);
+    const mail = mailer.sent[0];
+    assert.equal(mail.to, 'alice@example.com');
+    const link = mail.text.match(/https:\/\/matchedbet\.example\/reset-password\.html\?token=([\w-]+)/);
+    assert.ok(link, 'link uses APP_URL');
+    assert.ok(mail.html.includes(link[0]));
+    const token = link[1];
+
+    assert.equal((await anon('POST', '/api/auth/reset/check', { token })).json.valid, true);
+    assert.equal((await anon('POST', '/api/auth/reset/check', { token: 'nope' })).json.valid, false);
+
+    // A too-short password doesn't use up the token.
+    assert.equal((await anon('POST', '/api/auth/reset', { token, password: 'short' })).status, 400);
+    r = await anon('POST', '/api/auth/reset', { token, password: 'brand new pass' });
+    assert.equal(r.status, 200);
+    assert.equal((await anon('GET', '/api/auth/me')).json.user.email, 'alice@example.com');
+
+    // Existing sessions are signed out, the token can't be reused, and only the new password works.
+    assert.equal((await a1('GET', '/api/auth/me')).json.user, null);
+    assert.equal((await a2('GET', '/api/auth/me')).json.user, null);
+    assert.equal((await anon('POST', '/api/auth/reset', { token, password: 'another pass 2' })).status, 400);
+    assert.equal((await client(s.base)('POST', '/api/auth/login', { email: ALICE.email, password: ALICE.password })).status, 401);
+    assert.equal((await client(s.base)('POST', '/api/auth/login', { email: ALICE.email, password: 'brand new pass' })).status, 200);
+  } finally { await s.close(); }
+});
+
+test('reset links expire, and a newer request replaces an older link', async () => {
+  const mailer = fakeMailer();
+  const s = await startServer({ mailer, appUrl: 'https://matchedbet.example' });
+  const c = client(s.base);
+  const tokenOf = (m) => m.text.match(/token=([\w-]+)/)[1];
+  try {
+    await c('POST', '/api/auth/register', ALICE);
+    await c('POST', '/api/auth/forgot', { email: ALICE.email });
+    await c('POST', '/api/auth/forgot', { email: ALICE.email });
+    const [first, second] = mailer.sent.map(tokenOf);
+    assert.equal((await c('POST', '/api/auth/reset', { token: first, password: 'brand new pass' })).status, 400);
+
+    s.db.prepare('UPDATE password_resets SET expires_at = ?').run(Date.now() - 1);
+    assert.equal((await c('POST', '/api/auth/reset/check', { token: second })).json.valid, false);
+    assert.equal((await c('POST', '/api/auth/reset', { token: second, password: 'brand new pass' })).status, 400);
+
+    // Third request in an hour for the same email is still allowed; the fourth is rate limited.
+    assert.equal((await c('POST', '/api/auth/forgot', { email: ALICE.email })).status, 200);
+    assert.equal((await c('POST', '/api/auth/forgot', { email: ALICE.email })).status, 429);
+  } finally { await s.close(); }
+});
+
+test('in production, reset emails are only sent when APP_URL is set', async () => {
+  const mailer = fakeMailer();
+  const s = await startServer({ mailer, secureCookies: true });
+  const c = client(s.base);
+  try {
+    await c('POST', '/api/auth/register', ALICE);
+    // Without APP_URL the server would have to trust the Host header, which an attacker controls.
+    const r = await c('POST', '/api/auth/forgot', { email: ALICE.email }, { Host: 'evil.example' });
+    assert.equal(r.status, 200);
+    assert.equal(mailer.sent.length, 0);
+  } finally { await s.close(); }
+});
+
+test('Brevo mailer sends the expected request', async () => {
+  const { createMailer } = require('../server/mailer');
+  let req;
+  const mailer = createMailer({
+    apiKey: 'xkeysib-test', fromEmail: 'no-reply@matchedbet.example', fromName: 'MatchedBet',
+    fetchImpl: async (url, opts) => { req = { url, opts }; return new Response('{"messageId":"m1"}', { status: 201 }); }
+  });
+  const r = await mailer.send({ to: 'a@example.com', toName: 'A', subject: 'Hi', text: 'text', html: '<p>html</p>' });
+  assert.equal(r.messageId, 'm1');
+  assert.equal(req.url, 'https://api.brevo.com/v3/smtp/email');
+  assert.equal(req.opts.headers['api-key'], 'xkeysib-test');
+  assert.deepEqual(JSON.parse(req.opts.body), {
+    sender: { name: 'MatchedBet', email: 'no-reply@matchedbet.example' },
+    to: [{ email: 'a@example.com', name: 'A' }],
+    subject: 'Hi', textContent: 'text', htmlContent: '<p>html</p>'
+  });
+
+  const failing = createMailer({ apiKey: 'k', fromEmail: 'x@y.z', fetchImpl: async () => new Response('{"message":"bad key"}', { status: 401 }) });
+  await assert.rejects(failing.send({ to: 'a@example.com', subject: 's', text: 't', html: 'h' }), /Brevo returned 401/);
+
+  const logged = [];
+  const noKey = createMailer({ log: { log: (m) => logged.push(m) } });
+  assert.deepEqual(await noKey.send({ to: 'a@example.com', subject: 's', text: 'the body', html: 'h' }), { logged: true });
+  assert.match(logged[0], /the body/);
+});

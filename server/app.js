@@ -2,6 +2,7 @@
 const path = require('node:path');
 const auth = require('./auth');
 const { createOddsService } = require('./odds');
+const { createMailer } = require('./mailer');
 const { HttpError, sendJson, readJson, parseCookies, cookie, serveStatic, SECURITY_HEADERS } = require('./http');
 const OFFERS = require('./offers.json');
 
@@ -25,7 +26,17 @@ function createApp(config) {
     fetchImpl: config.fetchImpl,
     log: config.log
   });
+  const mailer = config.mailer || createMailer({
+    apiKey: config.brevoApiKey,
+    fromEmail: config.mailFromEmail,
+    fromName: config.mailFromName,
+    fetchImpl: config.fetchImpl,
+    log: config.log
+  });
+  const logger = config.log || console;
   const loginLimiter = auth.createRateLimiter({ max: 10, windowMs: 15 * 60e3 });
+  const forgotIpLimiter = auth.createRateLimiter({ max: 5, windowMs: 15 * 60e3 });
+  const forgotEmailLimiter = auth.createRateLimiter({ max: 3, windowMs: 60 * 60e3 });
   const registerLimiter = auth.createRateLimiter({ max: 5, windowMs: 60 * 60e3 });
 
   function clientIp(req) {
@@ -34,6 +45,32 @@ function createApp(config) {
       if (fwd) return fwd;
     }
     return req.socket.remoteAddress || 'unknown';
+  }
+
+  // Links in emails must use the configured site address. Trusting the request's Host header
+  // would let an attacker send real reset emails that point at their own site.
+  function siteUrl(req) {
+    if (config.appUrl) return config.appUrl.replace(/\/+$/, '');
+    if (secureCookies) return null;
+    return 'http://' + req.headers.host;
+  }
+
+  function resetEmail(user, link) {
+    const minutes = Math.round(auth.RESET_TTL_MS / 60e3);
+    const text = `Hi ${user.name},\n\n` +
+      `Someone asked to reset the password for your MatchedBet account. To choose a new password, open this link:\n\n${link}\n\n` +
+      `The link works once and expires in ${minutes} minutes.\n\n` +
+      `If you didn't ask for this, you can ignore this email. Your password won't change.\n`;
+    const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:0 auto;color:#16202c;line-height:1.55">
+<h2 style="margin:0 0 16px">Reset your password</h2>
+<p>Hi ${esc(user.name)},</p>
+<p>Someone asked to reset the password for your MatchedBet account. To choose a new password, use the button below.</p>
+<p style="margin:24px 0"><a href="${esc(link)}" style="background:#0f7b5f;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:600;display:inline-block">Choose a new password</a></p>
+<p style="font-size:14px;color:#5b6878">The link works once and expires in ${minutes} minutes. If the button doesn't work, copy this address into your browser:<br><span style="word-break:break-all">${esc(link)}</span></p>
+<p style="font-size:14px;color:#5b6878">If you didn't ask for this, you can ignore this email. Your password won't change.</p>
+</div>`;
+    return { subject: 'Reset your MatchedBet password', text, html };
   }
 
   function sessionCookie(token, maxAgeMs) {
@@ -146,6 +183,51 @@ function createApp(config) {
     sendJson(res, 200, { user: publicUser(row) }, { 'Set-Cookie': sessionCookie(s.token, auth.SESSION_TTL_MS) });
   });
 
+  route('POST', '/api/auth/forgot', async (req, res) => {
+    const body = await readJson(req);
+    const email = String(body.email || '').trim().toLowerCase();
+    if (!EMAIL_RE.test(email)) throw new HttpError(400, 'Enter a valid email address.');
+    const ipLimit = forgotIpLimiter.hit(clientIp(req));
+    const emailLimit = forgotEmailLimiter.hit(email);
+    if (!ipLimit.allowed || !emailLimit.allowed) {
+      throw new HttpError(429, 'Too many reset requests. Wait a while and try again.');
+    }
+    const user = db.prepare('SELECT id, email, name FROM users WHERE email = ?').get(email);
+    if (user) {
+      const base = siteUrl(req);
+      if (!base) {
+        logger.error('password reset: APP_URL is not set, so no reset email was sent');
+      } else {
+        const link = `${base}/reset-password.html?token=${auth.createResetToken(db, user.id)}`;
+        const msg = resetEmail(user, link);
+        // Not awaited, so the response takes the same time whether or not the account exists.
+        mailer.send(Object.assign({ to: user.email, toName: user.name }, msg))
+          .catch((err) => logger.error(`password reset email to user ${user.id} failed: ${err.message}`));
+      }
+    }
+    // Same answer either way, so this form can't be used to find out who has an account.
+    sendJson(res, 200, { ok: true });
+  });
+
+  route('POST', '/api/auth/reset/check', async (req, res) => {
+    const body = await readJson(req);
+    sendJson(res, 200, { valid: auth.resetTokenIsValid(db, body.token) });
+  });
+
+  route('POST', '/api/auth/reset', async (req, res) => {
+    const body = await readJson(req);
+    const password = validPassword(body.password);
+    const userId = auth.consumeResetToken(db, body.token);
+    if (!userId) throw new HttpError(400, 'This reset link has expired or has already been used. Ask for a new one.');
+    db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(await auth.hashPassword(password), userId);
+    db.prepare('DELETE FROM sessions WHERE user_id = ?').run(userId);
+    db.prepare('DELETE FROM password_resets WHERE user_id = ?').run(userId);
+    loginLimiter.reset('email:' + db.prepare('SELECT email FROM users WHERE id = ?').get(userId).email);
+    const s = auth.createSession(db, userId);
+    const user = db.prepare('SELECT id, email, name, created_at FROM users WHERE id = ?').get(userId);
+    sendJson(res, 200, { user: publicUser(user) }, { 'Set-Cookie': sessionCookie(s.token, auth.SESSION_TTL_MS) });
+  });
+
   route('POST', '/api/auth/logout', async (req, res) => {
     auth.deleteSession(db, req.token);
     sendJson(res, 200, { ok: true }, { 'Set-Cookie': sessionCookie('', 0) });
@@ -173,6 +255,7 @@ function createApp(config) {
     const next = validPassword(body.newPassword);
     db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(await auth.hashPassword(next), user.id);
     auth.deleteOtherSessions(db, user.id, req.token);
+    db.prepare('DELETE FROM password_resets WHERE user_id = ?').run(user.id);
     sendJson(res, 200, { ok: true });
   });
 
@@ -311,7 +394,7 @@ function createApp(config) {
         if (!res.headersSent) sendJson(res, err.status, { error: err.message }, headers);
         return;
       }
-      (config.log || console).error(err);
+      logger.error(err);
       if (!res.headersSent) sendJson(res, 500, { error: 'Something went wrong on our side. Try again.' });
     }
   };

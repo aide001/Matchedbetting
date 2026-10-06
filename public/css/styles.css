@@ -338,3 +338,5 @@ main.narrow { max-width: 640px; }
 .offers-table tr.status-done td:first-child strong::after { content: " ✓"; color: var(--pos); }
 .migrate { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; }
 .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; font-weight: 700; color: var(--accent); margin: 0 0 .5rem; }
+.label-row { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; }
+.small-link { font-size: .85rem; }
