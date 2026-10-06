@@ -24,8 +24,14 @@ A matched betting website with member accounts. It runs on Node.js with SQLite a
     (with each exchange's commission).
   - Sortable columns.
   - A pop-up calculator on every row, which can log the bet straight to the tracker.
-- **Sign-up offers checklist:** mark each bookmaker's welcome offer as to do, in progress or done, and
-  record the profit. The list is in `server/offers.json`.
+- **Sign-up offers with step-by-step guides:** 18 bookmaker and exchange welcome offers, each with:
+  - its terms, a rough profit estimate and a guide built from its terms;
+  - "Find a match" buttons that open the oddsmatcher with the right filters;
+  - progress tracking.
+
+  The offers live in `server/offers.json`. Each one records where its terms came from, the date they were
+  checked, and whether the sources agreed (`check.status`: `checked`, `conflicting` or `partial`). The
+  site shows this to members. Offers change often, so re-check them regularly and update `checkedOn`.
 - **Profit tracker:** bets are saved to the account, with totals by bookmaker and month and CSV
   import/export. Bets from the old browser-only tracker can be moved into the account.
 
@@ -109,7 +115,7 @@ Back up the database file regularly. It holds every member's account and bets.
 - **Email verification.**
 - **Paid plans.** OddsMonkey and Outplayed charge a subscription, which would need a payment provider
   such as Stripe.
-- **Admin pages.** Edit `server/offers.json` to change the offers list.
+- **Admin pages.** Edit `server/offers.json` to change the offers list. `npm test` checks the file is valid.
 
 ## The maths
 

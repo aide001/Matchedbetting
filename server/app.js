@@ -9,7 +9,7 @@ const OFFERS = require('./offers.json');
 const SESSION_COOKIE = 'mb_session';
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 // Pages that need an account; visitors are sent to the login page first.
-const MEMBER_PAGES = new Set(['/dashboard.html', '/tracker.html', '/oddsmatcher.html', '/offers.html', '/account.html']);
+const MEMBER_PAGES = new Set(['/dashboard.html', '/tracker.html', '/oddsmatcher.html', '/offers.html', '/offer.html', '/account.html']);
 const BET_TYPES = new Set(['qualifying', 'free-snr', 'free-sr', 'casino', 'other']);
 const OFFER_STATUSES = new Set(['not-started', 'in-progress', 'done']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -55,8 +55,10 @@
     }
     next.forEach(function (o) {
       var li = document.createElement('li');
-      var name = document.createElement('strong');
-      name.textContent = o.bookmaker;
+      var name = document.createElement('a');
+      name.href = '/offer.html#' + o.id;
+      name.className = 'strong-link';
+      name.textContent = o.bookmaker + ': ' + o.headline;
       var tag = document.createElement('span');
       tag.className = 'badge' + (o.status === 'in-progress' ? ' badge-progress' : '');
       tag.textContent = o.status === 'in-progress' ? 'In progress' : 'To do';

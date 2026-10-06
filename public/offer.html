@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offer guide – MatchedBet</title>
+  <meta name="description" content="Step-by-step guide to a bookmaker sign-up offer.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="narrow wide-guide">
+    <p class="crumbs"><a href="/offers.html">← All offers</a></p>
+    <div id="guide-missing" class="card" hidden>
+      <h1>Offer not found</h1>
+      <p class="muted">That offer isn't on the list. <a href="/offers.html">See all offers</a>.</p>
+    </div>
+    <article id="guide" hidden>
+      <header class="guide-head">
+        <p class="eyebrow" id="g-kind"></p>
+        <h1 id="g-bookmaker"></h1>
+        <p class="guide-headline" id="g-headline"></p>
+        <p class="tcs">18+. New customers only. T&amp;Cs apply. <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware.org</a></p>
+      </header>
+
+      <div class="check-banner" id="g-check"></div>
+
+      <div class="grid cols-4 guide-facts" id="g-facts"></div>
+
+      <section class="card guide-progress">
+        <div class="field">
+          <label for="g-status">Your progress</label>
+          <select id="g-status">
+            <option value="not-started">To do</option>
+            <option value="in-progress">In progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="g-profit">Profit you made (£)</label>
+          <input id="g-profit" type="number" inputmode="decimal" step="0.01" placeholder="0.00">
+        </div>
+        <span class="form-note" id="g-note" role="status"></span>
+      </section>
+
+      <h2>Step by step</h2>
+      <ol class="steps" id="g-steps"></ol>
+
+      <h2>Key terms</h2>
+      <ul id="g-terms"></ul>
+
+      <p class="muted source-line" id="g-source"></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="/js/session.js"></script>
+  <script src="/js/calc.js"></script>
+  <script src="/js/offer-guide.js"></script>
+  <script src="/js/offer.js"></script>
+</body>
+</html>

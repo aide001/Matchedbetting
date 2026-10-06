@@ -3,7 +3,6 @@
   var api = MBSession.api;
   var $ = function (id) { return document.getElementById(id); };
   var STATUS = [['not-started', 'To do'], ['in-progress', 'In progress'], ['done', 'Done']];
-  var KIND = { sports: 'Sports sign-up', exchange: 'Exchange' };
   var offers = [];
 
   function money(n) { return (n < 0 ? '-' : '') + '£' + Math.abs(n).toFixed(2); }
@@ -19,6 +18,9 @@
     var total = offers.reduce(function (s, o) { return s + (o.profit || 0); }, 0);
     $('o-profit').textContent = money(total);
     $('o-profit').className = 'value ' + (total > 0 ? 'pos' : total < 0 ? 'neg' : '');
+    var left = offers.filter(function (o) { return o.status !== 'done'; })
+      .reduce(function (s, o) { return s + (MBOffers.estimateProfit(o) || 0); }, 0);
+    $('o-left').textContent = '£' + left;
   }
 
   function save(o, status, profit) {
@@ -55,8 +57,16 @@
       var tr = tbody.insertRow();
       tr.className = 'status-' + o.status;
       var name = tr.insertCell();
-      name.append(Object.assign(document.createElement('strong'), { textContent: o.bookmaker }));
-      tr.insertCell().append(Object.assign(document.createElement('span'), { className: 'badge', textContent: KIND[o.kind] || o.kind }));
+      name.className = 'offer-cell';
+      var dot = document.createElement('span');
+      dot.className = 'check-dot ' + o.check.status;
+      dot.title = { checked: 'Terms checked', conflicting: 'Sources disagree', partial: 'Not fully confirmed' }[o.check.status];
+      name.append(dot, Object.assign(document.createElement('strong'), { textContent: o.bookmaker }),
+        Object.assign(document.createElement('span'), { className: 'offer-headline', textContent: o.headline }));
+      var est = MBOffers.estimateProfit(o);
+      var ec = tr.insertCell();
+      ec.className = 'num';
+      ec.textContent = est == null ? '–' : '£' + est;
 
       var sel = document.createElement('select');
       sel.setAttribute('aria-label', 'Status for ' + o.bookmaker);
@@ -87,7 +97,12 @@
       });
       pc.appendChild(input);
 
-      tr.insertCell().textContent = o.updatedAt ? new Date(o.updatedAt).toLocaleDateString() : '';
+      var g = document.createElement('a');
+      g.className = 'btn small secondary';
+      g.href = '/offer.html#' + o.id;
+      g.textContent = 'Guide';
+      g.setAttribute('aria-label', o.bookmaker + ' guide');
+      tr.insertCell().appendChild(g);
     });
   }
 

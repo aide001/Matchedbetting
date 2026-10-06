@@ -418,6 +418,26 @@
   });
 
   // ---------- Start ----------
+  // Filters handed over by an offer guide's "Find a match" button.
+  (function applyPrefill() {
+    var pre;
+    try {
+      pre = JSON.parse(sessionStorage.getItem('mb.om.prefill'));
+      sessionStorage.removeItem('mb.om.prefill');
+    } catch (e) { pre = null; }
+    if (!pre) return;
+    var radio = document.querySelector('input[name="om-mode"][value="' + pre.mode + '"]');
+    if (radio) radio.checked = true;
+    $('om-min').value = pre.minOdds || '';
+    $('om-max').value = '';
+    $('om-rating').value = '';
+    if (pre.stake) $('om-stake').value = pre.stake;
+    settings.mode = mode();
+    settings.sort = null;
+    settings.reverse = false;
+    FILTER_FIELDS.forEach(function (id) { settings[id] = $(id).value; });
+    saveSettings();
+  })();
   render();
   loadOdds();
 })();

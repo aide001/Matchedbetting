@@ -25,12 +25,14 @@
 
   <main>
     <h1>Sign-up offers</h1>
-    <p class="muted">Work through each bookmaker's welcome offer one at a time, and record what you made. Offers change often, so always read the bookmaker's current terms before you start.</p>
+    <p class="muted">Work through each bookmaker's welcome offer one at a time. Every offer has a step-by-step guide. Offers change often, so always confirm the terms on the bookmaker's site before you start.</p>
+    <p class="tcs">18+. New customers only. T&amp;Cs apply. <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware.org</a></p>
 
-    <div class="grid cols-3 stat-row">
+    <div class="grid cols-4 stat-row">
       <div class="card stat"><div class="label">Completed</div><div class="value" id="o-done">–</div></div>
       <div class="card stat"><div class="label">In progress</div><div class="value" id="o-progress">–</div></div>
       <div class="card stat"><div class="label">Profit from offers</div><div class="value" id="o-profit">–</div></div>
+      <div class="card stat"><div class="label">Left to make (rough estimate)</div><div class="value" id="o-left">–</div></div>
     </div>
 
     <details class="card how-to" style="margin-top:1rem">
@@ -55,7 +57,7 @@
       </div>
       <div class="table-wrap">
         <table class="offers-table">
-          <thead><tr><th>Bookmaker</th><th>Type</th><th>Status</th><th class="num">Profit (£)</th><th>Last updated</th></tr></thead>
+          <thead><tr><th>Offer</th><th class="num">Est. profit</th><th>Status</th><th class="num">Your profit (£)</th><th></th></tr></thead>
           <tbody id="o-rows"></tbody>
         </table>
       </div>
@@ -68,6 +70,7 @@
   </footer>
 
   <script src="/js/session.js"></script>
+  <script src="/js/offer-guide.js"></script>
   <script src="/js/offers.js"></script>
 </body>
 </html>
