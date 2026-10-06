@@ -27,7 +27,9 @@ function createOddsService({ db, apiKey, sports, refreshMinutes, baseUrl, fetchI
     let ok = 0;
     for (const sport of sports) {
       const url = `${base}/v4/sports/${encodeURIComponent(sport)}/odds/?` + new URLSearchParams({
-        apiKey, regions: 'uk', markets: 'h2h,h2h_lay', oddsFormat: 'decimal', dateFormat: 'iso'
+        apiKey, regions: 'uk', markets: 'h2h,h2h_lay', oddsFormat: 'decimal', dateFormat: 'iso',
+        // Links to the event or bet slip at each bookmaker, where the feed has them.
+        includeLinks: 'true'
       });
       try {
         const res = await doFetch(url);

@@ -3,6 +3,9 @@ const path = require('node:path');
 const auth = require('./auth');
 const { createOddsService } = require('./odds');
 const { createMailer } = require('./mailer');
+const { planEmail } = require('./plan-email');
+const { buildMatches } = require('../public/js/oddsmatch.js');
+const { makePlan, REASONS } = require('../public/js/bet-plan.js');
 const { HttpError, sendJson, readJson, parseCookies, cookie, serveStatic, SECURITY_HEADERS } = require('./http');
 const OFFERS = require('./offers.json');
 
@@ -37,6 +40,7 @@ function createApp(config) {
   const loginLimiter = auth.createRateLimiter({ max: 10, windowMs: 15 * 60e3 });
   const forgotIpLimiter = auth.createRateLimiter({ max: 5, windowMs: 15 * 60e3 });
   const forgotEmailLimiter = auth.createRateLimiter({ max: 3, windowMs: 60 * 60e3 });
+  const planEmailLimiter = auth.createRateLimiter({ max: 10, windowMs: 60 * 60e3 });
   const registerLimiter = auth.createRateLimiter({ max: 5, windowMs: 60 * 60e3 });
 
   function clientIp(req) {
@@ -338,6 +342,43 @@ function createApp(config) {
       ON CONFLICT(user_id, offer_id) DO UPDATE SET status = excluded.status, profit = excluded.profit, updated_at = excluded.updated_at`)
       .run(user.id, m[1], body.status, profit, updatedAt);
     sendJson(res, 200, { offer: { id: m[1], status: body.status, profit, updatedAt } });
+  });
+
+  async function planFor(offerId, step) {
+    const offer = OFFERS.find((o) => o.id === offerId);
+    if (!offer) throw new HttpError(404, 'That offer doesn\'t exist.');
+    if (step !== 'qualifying' && step !== 'free') throw new HttpError(400, 'Choose the qualifying or free bet step.');
+    const data = await odds.get();
+    const plan = makePlan(buildMatches(data.events), offer, step);
+    return { offer, plan, data };
+  }
+
+  route('GET', /^\/api\/offers\/([a-z0-9-]+)\/plan$/, async (req, res, m) => {
+    requireUser(req);
+    const step = new URL(req.url, 'http://localhost').searchParams.get('step');
+    const { plan, data } = await planFor(m[1], step);
+    sendJson(res, 200, {
+      plan: plan.ok ? plan : { ok: false, reason: plan.reason, message: REASONS[plan.reason] },
+      sample: data.source !== 'live',
+      fetchedAt: data.fetchedAt
+    });
+  });
+
+  route('POST', /^\/api\/offers\/([a-z0-9-]+)\/plan\/email$/, async (req, res, m) => {
+    const user = requireUser(req);
+    const body = await readJson(req);
+    if (!planEmailLimiter.hit('user:' + user.id).allowed) {
+      throw new HttpError(429, 'You\'ve asked for a lot of emails this hour. Try again later.');
+    }
+    // Worked out again here rather than trusting the browser, so the email always matches the server's odds.
+    const { offer, plan, data } = await planFor(m[1], body.step);
+    if (!plan.ok) throw new HttpError(409, REASONS[plan.reason]);
+    const msg = planEmail({ user, offer, plan, sample: data.source !== 'live', fetchedAt: data.fetchedAt, siteUrl: siteUrl(req) });
+    await mailer.send(Object.assign({ to: user.email, toName: user.name }, msg)).catch((err) => {
+      logger.error(`plan email to user ${user.id} failed: ${err.message}`);
+      throw new HttpError(502, 'We couldn\'t send the email just now. The instructions are still on this page.');
+    });
+    sendJson(res, 200, { sent: true, to: user.email, plan });
   });
 
   route('GET', '/api/odds', async (req, res) => {

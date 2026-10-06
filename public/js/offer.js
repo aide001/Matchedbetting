@@ -29,6 +29,110 @@
     return a;
   }
 
+  function kickoff(iso) {
+    return new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function betBox(kind, heading, rows, link, linkLabel, note) {
+    var box = el('div', 'bet-box ' + kind);
+    box.appendChild(el('div', 'bet-box-head', heading));
+    var dl = el('dl');
+    rows.forEach(function (r) { dl.append(el('dt', null, r[0]), el('dd', null, r[1])); });
+    box.appendChild(dl);
+    if (note) box.appendChild(el('p', 'bet-box-note', note));
+    if (link) {
+      var a = el('a', 'btn small ' + kind, linkLabel + ' ↗');
+      a.href = link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      box.appendChild(a);
+    }
+    return box;
+  }
+
+  // "Show me exactly what to bet": the best current match for this step, with stakes and links.
+  function planPanel(step) {
+    var wrap = el('div', 'plan');
+    var show = el('button', 'btn small', 'Show me exactly what to bet');
+    show.type = 'button';
+    var out = el('div', 'plan-out');
+    out.setAttribute('aria-live', 'polite');
+    show.addEventListener('click', function () {
+      show.disabled = true;
+      out.textContent = 'Finding the best match…';
+      api('GET', '/api/offers/' + offer.id + '/plan?step=' + step).then(function (d) {
+        renderPlan(out, d, step);
+        show.textContent = 'Find the best match again';
+      }, function (err) {
+        out.textContent = err.message;
+      }).then(function () { show.disabled = false; });
+    });
+    wrap.append(show, out);
+    return wrap;
+  }
+
+  function renderPlan(out, d, step) {
+    out.innerHTML = '';
+    var p = d.plan;
+    if (!p.ok) {
+      out.appendChild(el('p', 'plan-none', p.message));
+      return;
+    }
+    if (d.sample) out.appendChild(el('p', 'plan-sample', 'Sample odds for testing. Don\'t place real bets from these.'));
+    out.appendChild(el('p', 'plan-event', p.event + ' · ' + p.sport + ' · starts ' + kickoff(p.commenceTime)));
+    var grid = el('div', 'bet-boxes');
+    grid.append(
+      betBox('back', '1 · Back at ' + p.back.bookmaker, [
+        ['Bet on', MBPlan.betLabel(p.selection)],
+        ['Odds', p.back.odds.toFixed(2)],
+        ['Stake', money(p.back.stake)]
+      ], p.back.link, 'Open ' + p.back.bookmaker, step === 'free' ? 'Use your free bet for this, not your own money.' : null),
+      betBox('lay', '2 · Lay at ' + p.lay.exchange, [
+        ['Lay (bet against)', MBPlan.layLabel(p.selection)],
+        ['Odds', p.lay.odds.toFixed(2)],
+        ['Lay stake', money(p.lay.stake)],
+        ['Liability', money(p.lay.liability)]
+      ], p.lay.link, 'Open ' + p.lay.exchange, 'Place this straight after step 1. Your ' + p.lay.exchange + ' balance must cover the liability.')
+    );
+    out.appendChild(grid);
+    out.appendChild(el('p', 'plan-result', p.result >= 0
+      ? 'Whatever the result, you keep about ' + money(p.result) + '.'
+      : 'Whatever the result, you lose about ' + money(-p.result) + '. That\'s the cost of unlocking the free bets.'));
+
+    var calc = el('a', null, 'work out the new lay stake');
+    calc.href = '/calculator.html?' + p.calculatorQuery;
+    calc.addEventListener('click', function () {
+      try { sessionStorage.setItem('mb.calc.prefill', p.calculatorQuery); } catch (e) { /* ignore */ }
+    });
+    var warn = el('p', 'plan-warn');
+    warn.append('Prices from ' + kickoffTime(d.fetchedAt) + '. Odds move, so check both before you bet. If either has changed, ', calc, '.');
+    if (!p.back.direct || !p.lay.direct) warn.append(' The buttons open each site\'s home page, so search for the event there.');
+    out.appendChild(warn);
+
+    var row = el('div', 'btn-row');
+    var mail = el('button', 'btn small secondary', 'Email me these instructions');
+    mail.type = 'button';
+    var note = el('span', 'form-note');
+    note.setAttribute('role', 'status');
+    mail.addEventListener('click', function () {
+      mail.disabled = true;
+      note.textContent = 'Sending…';
+      api('POST', '/api/offers/' + offer.id + '/plan/email', { step: step }).then(function (r) {
+        note.textContent = 'Sent to ' + r.to + '. If the odds have changed since, the email has the latest prices.';
+      }, function (err) {
+        note.textContent = err.message;
+        mail.disabled = false;
+      });
+    });
+    row.append(mail, note);
+    out.appendChild(row);
+  }
+
+  function kickoffTime(iso) {
+    return new Date(iso).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) + ' on ' +
+      new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+  }
+
   function step(title, paragraphs, actions) {
     var li = el('li', 'step');
     li.appendChild(el('h3', null, title));
@@ -110,8 +214,9 @@
         'Back £' + q.stake + (q.minOdds ? ' at odds of ' + q.minOdds.toFixed(2) + ' or more. ' : '. The minimum odds weren\'t in our sources, so check them first. ') +
           (known(q.markets) ? sentence(q.markets) : ''),
         'Lay it at an exchange straight away using the stake the calculator gives you. With a close match you\'ll lose around ' + money(loss) + ' whatever the result. That\'s the cost of unlocking the free bets.',
-        known(q.window) ? 'Time limit: ' + sentence(q.window) : null
-      ], [matchButton('Find a qualifying match', { mode: 'qualifying', minOdds: q.minOdds || '', stake: q.stake })]));
+        known(q.window) ? 'Time limit: ' + sentence(q.window) : null,
+        planPanel('qualifying')
+      ], [matchButton('Browse matches yourself', { mode: 'qualifying', minOdds: q.minOdds || '', stake: q.stake })]));
     }
 
     if (o.freeBets.length) {
@@ -120,6 +225,7 @@
           (known(o.expiry) ? ' They expire after ' + o.expiry + ', so plan when you\'ll use them.' : ' Check how long you have to use them.')
       ]));
 
+      var firstSingle = MBPlan.singleFreeBet(o);
       o.freeBets.forEach(function (f) {
         var title = 'Use the ' + (f.count > 1 ? f.count + ' × £' + f.value + ' ' : '£' + f.value + ' ') +
           MBOffers.USE_LABELS[f.use].toLowerCase() + (f.count > 1 ? 's' : '');
@@ -127,7 +233,8 @@
         var actions = [];
         if (f.use === 'single') {
           paras.push(exampleFor(f.value));
-          actions.push(matchButton('Find a free bet match', { mode: 'free-snr', minOdds: 4, stake: f.value }));
+          if (f === firstSingle) paras.push(planPanel('free'));
+          actions.push(matchButton('Browse matches yourself', { mode: 'free-snr', minOdds: 4, stake: f.value }));
         }
         steps.append(step(title, paras, actions));
       });

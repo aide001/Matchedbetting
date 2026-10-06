@@ -35,6 +35,20 @@
     return map;
   }
 
+  // Only plain https links from the odds feed are used, so a bad value can't become a script link.
+  function safeLink(v) {
+    return typeof v === 'string' && /^https:\/\/[^\s"'<>]+$/i.test(v) ? v : null;
+  }
+
+  // Most specific link the feed gives: the selection (betslip), then the market, then the event at that bookmaker.
+  function linkMap(bookmaker, market) {
+    var map = {};
+    (market && market.outcomes || []).forEach(function (o) {
+      map[o.name] = safeLink(o.link) || safeLink(market.link) || safeLink(bookmaker.link);
+    });
+    return map;
+  }
+
   function freeBetRating(backOdds, layOdds, commission) {
     var r = Calc.calculate({
       backStake: 100, backOdds: backOdds, layOdds: layOdds,
@@ -65,6 +79,7 @@
           title: b.title || EXCHANGES[b.key].title,
           commission: typeof c === 'number' && !isNaN(c) ? c : EXCHANGES[b.key].commission,
           prices: priceMap(m),
+          links: linkMap(b, m),
           updated: m.last_update || b.last_update
         });
       });
@@ -75,6 +90,7 @@
         var m = findMarket(b, 'h2h');
         if (!m) return;
         var backs = priceMap(m);
+        var backLinks = linkMap(b, m);
         Object.keys(backs).forEach(function (selection) {
           var backOdds = backs[selection];
           var best = null;
@@ -102,7 +118,9 @@
             rating: best.rating,
             snrRating: freeBetRating(backOdds, best.layOdds, best.ex.commission),
             backUpdated: m.last_update || b.last_update || null,
-            layUpdated: best.ex.updated || null
+            layUpdated: best.ex.updated || null,
+            backLink: backLinks[selection] || null,
+            layLink: best.ex.links[selection] || null
           });
         });
       });
@@ -157,6 +175,7 @@
   var MBOdds = {
     EXCHANGES: EXCHANGES,
     isExchange: isExchange,
+    safeLink: safeLink,
     buildMatches: buildMatches,
     filterAndSort: filterAndSort,
     SORTS: Object.keys(SORTS),

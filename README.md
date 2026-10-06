@@ -29,9 +29,22 @@ A matched betting website with member accounts. It runs on Node.js with SQLite a
   - "Find a match" buttons that open the oddsmatcher with the right filters;
   - progress tracking.
 
+- **"Show me exactly what to bet":** on each offer guide, the site picks the best current match at that
+  bookmaker. For the qualifying bet it uses the best rating; for the first free bet that can go on a
+  single, the best SNR rating at odds of 3 to 10. Events must start between 1 hour and 7 days from now.
+  It then shows two boxes:
+  - **Back:** the bet, odds, stake and a link to the bookmaker.
+  - **Lay:** the exchange, odds, lay stake, liability and a link.
+
+  The member can email these instructions to themselves through Brevo. The server works the plan out
+  again before sending, so the email always matches its odds. Links come from The Odds API's
+  `includeLinks` option where it has a direct event or bet-slip link. Otherwise they go to the bookmaker's
+  home page. Only plain `https` links are used. Plan emails are limited to 10 an hour per member.
+
   The offers live in `server/offers.json`. Each one records where its terms came from, the date they were
   checked, and whether the sources agreed (`check.status`: `checked`, `conflicting` or `partial`). The
-  site shows this to members. Offers change often, so re-check them regularly and update `checkedOn`.
+  site shows this to members. `oddsKeys` maps each offer to its bookmaker key in The Odds API.
+  Bookmakers are also matched by name, so a wrong key only means a missed match. Offers change often, so re-check them regularly and update `checkedOn`.
 - **Profit tracker:** bets are saved to the account, with totals by bookmaker and month and CSV
   import/export. Bets from the old browser-only tracker can be moved into the account.
 

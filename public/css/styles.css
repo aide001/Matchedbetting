@@ -11,6 +11,7 @@
   --back-bg: #e3effb;
   --lay: #d1477a;
   --lay-bg: #fbe6ee;
+  --on-color: #ffffff;
   --pos: #12804f;
   --neg: #c0392b;
   --radius: 10px;
@@ -31,6 +32,7 @@
     --back-bg: #16283b;
     --lay: #f082a9;
     --lay-bg: #3a1a27;
+    --on-color: #0f141a;
     --pos: #3ccf8e;
     --neg: #ff7a6b;
     --shadow: none;
@@ -50,6 +52,7 @@
     --back-bg: #16283b;
     --lay: #f082a9;
     --lay-bg: #3a1a27;
+    --on-color: #0f141a;
     --pos: #3ccf8e;
     --neg: #ff7a6b;
     --shadow: none;
@@ -367,3 +370,28 @@ main.wide-guide { max-width: 820px; }
 .strong-link:hover { color: var(--accent); text-decoration: underline; }
 .offers-table td.offer-cell { white-space: normal; min-width: 14rem; }
 .guide-facts { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+
+/* Bet instructions */
+.plan { margin: .75rem 0 .25rem; }
+.plan-out:not(:empty) { margin-top: .75rem; }
+.plan-event { font-weight: 600; margin: 0 0 .6rem; }
+.bet-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .75rem; }
+.bet-box { border: 2px solid; border-radius: var(--radius); padding: .8rem .95rem; min-width: 0; }
+.bet-box.back { border-color: var(--back); background: var(--back-bg); }
+.bet-box.lay { border-color: var(--lay); background: var(--lay-bg); }
+.bet-box-head { font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .4rem; }
+.bet-box.back .bet-box-head { color: var(--back); }
+.bet-box.lay .bet-box-head { color: var(--lay); }
+.bet-box dl { display: grid; grid-template-columns: auto 1fr; gap: .15rem .8rem; margin: 0; }
+.bet-box dt { color: var(--muted); font-size: .9rem; }
+.bet-box dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.bet-box-note { font-size: .85rem; margin: .5rem 0 0; }
+.bet-box .btn { margin-top: .6rem; }
+.btn.back { background: var(--back); color: var(--on-color); }
+.btn.lay { background: var(--lay); color: var(--on-color); }
+.plan-result { background: var(--surface-2); border-radius: 8px; padding: .6rem .8rem; font-weight: 600; margin: .75rem 0 .5rem; }
+.plan-warn { font-size: .88rem; color: var(--muted); }
+.plan-sample { background: var(--lay-bg); color: var(--lay); font-weight: 700; border-radius: 8px; padding: .5rem .8rem; margin: 0 0 .6rem; }
+.plan-none { background: var(--surface-2); border-radius: 8px; padding: .6rem .8rem; margin: 0; }
+.steps .step .plan-result { margin: .75rem 0 .5rem; }
+.steps .step .plan-event { margin: 0 0 .6rem; }

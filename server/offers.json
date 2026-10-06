@@ -1,245 +1,798 @@
 [
   {
-    "id": "williamhill", "bookmaker": "William Hill", "kind": "sports",
-    "headline": "Bet £10, get £30 in free bets", "promoCode": "R30",
-    "qualifying": { "stake": 10, "minOdds": 1.5, "window": "Not stated by the source", "markets": "Any sports market except virtuals. Single bets only." },
-    "freeBets": [ { "count": 3, "value": 10, "use": "single", "note": "Any sports market except virtuals, Tote, pools and lotteries" } ],
-    "credited": "After the qualifying bet settles", "expiry": "7 days",
+    "id": "williamhill",
+    "bookmaker": "William Hill",
+    "kind": "sports",
+    "oddsKeys": [
+      "williamhill"
+    ],
+    "headline": "Bet £10, get £30 in free bets",
+    "promoCode": "R30",
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 1.5,
+      "window": "Not stated by the source",
+      "markets": "Any sports market except virtuals. Single bets only."
+    },
+    "freeBets": [
+      {
+        "count": 3,
+        "value": 10,
+        "use": "single",
+        "note": "Any sports market except virtuals, Tote, pools and lotteries"
+      }
+    ],
+    "credited": "After the qualifying bet settles",
+    "expiry": "7 days",
     "payments": "Deposit by debit card. PayPal, Apple Pay, Skrill, NETELLER, Paysafe, Neosurf, ecoPayz, Kalibra/Postpay and the William Hill PLUS card don't qualify.",
-    "terms": ["New UK customers only, 18+", "One offer per customer and household", "Free bet stakes aren't returned", "Racing Post lists the offer as website-only, not the app"],
-    "check": { "status": "checked", "note": "TNT Sports and Racing Post agree on the offer. TNT Sports quotes the code R30; Racing Post says no code is needed." },
-    "source": { "name": "TNT Sports", "url": "https://www.tntsports.co.uk/betting/williamhill/code/", "updated": "2026-08-31" },
+    "terms": [
+      "New UK customers only, 18+",
+      "One offer per customer and household",
+      "Free bet stakes aren't returned",
+      "Racing Post lists the offer as website-only, not the app"
+    ],
+    "check": {
+      "status": "checked",
+      "note": "TNT Sports and Racing Post agree on the offer. TNT Sports quotes the code R30; Racing Post says no code is needed."
+    },
+    "source": {
+      "name": "TNT Sports",
+      "url": "https://www.tntsports.co.uk/betting/williamhill/code/",
+      "updated": "2026-08-31"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "paddypower", "bookmaker": "Paddy Power", "kind": "sports",
-    "headline": "Bet £5, get £30 in free bets", "promoCode": null,
-    "qualifying": { "stake": 5, "minOdds": 2.0, "window": "Must settle before 23:59 on 1 December 2026", "markets": "Any sportsbook market. Trixie, Yankee and Goliath bets and cashed-out bets don't count." },
-    "freeBets": [ { "count": 1, "value": 30, "use": "unknown", "note": "The source doesn't say how the £30 is split" } ],
-    "credited": "After the qualifying bet settles", "expiry": "30 days",
+    "id": "paddypower",
+    "bookmaker": "Paddy Power",
+    "kind": "sports",
+    "oddsKeys": [
+      "paddypower"
+    ],
+    "headline": "Bet £5, get £30 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 5,
+      "minOdds": 2.0,
+      "window": "Must settle before 23:59 on 1 December 2026",
+      "markets": "Any sportsbook market. Trixie, Yankee and Goliath bets and cashed-out bets don't count."
+    },
+    "freeBets": [
+      {
+        "count": 1,
+        "value": 30,
+        "use": "unknown",
+        "note": "The source doesn't say how the £30 is split"
+      }
+    ],
+    "credited": "After the qualifying bet settles",
+    "expiry": "30 days",
     "payments": "Debit card, Apple Pay or Pay by Bank only. PayPal, Skrill, NETELLER and Paysafe don't qualify.",
-    "terms": ["New UK and Ireland customers only, 18+", "Email verification and ID checks required", "Free bet stakes aren't returned"],
-    "check": { "status": "conflicting", "note": "Sportsmole (updated July 2026) says £30. Football Whispers (August 2026) says £40. Check the amount on Paddy Power's site when you sign up." },
-    "source": { "name": "Sportsmole", "url": "https://www.sportsmole.co.uk/online/paddy-power/code", "updated": "2026-07-10" },
+    "terms": [
+      "New UK and Ireland customers only, 18+",
+      "Email verification and ID checks required",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "conflicting",
+      "note": "Sportsmole (updated July 2026) says £30. Football Whispers (August 2026) says £40. Check the amount on Paddy Power's site when you sign up."
+    },
+    "source": {
+      "name": "Sportsmole",
+      "url": "https://www.sportsmole.co.uk/online/paddy-power/code",
+      "updated": "2026-07-10"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "skybet", "bookmaker": "Sky Bet", "kind": "sports",
-    "headline": "Bet £5, get £40 in free bets", "promoCode": null,
-    "qualifying": { "stake": 5, "minOdds": 2.0, "window": "Within 14 days of registering", "markets": "Your first Sky Bet bet. Singles, each-way and multiples can count. Smaller stakes can't be added together." },
-    "freeBets": [
-      { "count": 3, "value": 10, "use": "betbuilder", "note": "Football BuildABets" },
-      { "count": 1, "value": 10, "use": "acca", "note": "Football accumulators" }
+    "id": "skybet",
+    "bookmaker": "Sky Bet",
+    "kind": "sports",
+    "oddsKeys": [
+      "skybet"
     ],
-    "credited": "Usually within 24 hours of the qualifying bet settling", "expiry": "14 days",
+    "headline": "Bet £5, get £40 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 5,
+      "minOdds": 2.0,
+      "window": "Within 14 days of registering",
+      "markets": "Your first Sky Bet bet. Singles, each-way and multiples can count. Smaller stakes can't be added together."
+    },
+    "freeBets": [
+      {
+        "count": 3,
+        "value": 10,
+        "use": "betbuilder",
+        "note": "Football BuildABets"
+      },
+      {
+        "count": 1,
+        "value": 10,
+        "use": "acca",
+        "note": "Football accumulators"
+      }
+    ],
+    "credited": "Usually within 24 hours of the qualifying bet settling",
+    "expiry": "14 days",
     "payments": "NETELLER and Skrill deposits don't qualify.",
-    "terms": ["New customers only, 18+. Anyone who has ever had a Sky Bet, Sky Vegas, Sky Casino, Sky Poker or Sky Bingo account is not new", "The free bets can't be used on singles", "Also includes a Ghost Leg token for pre-match BuildABets of 5+ legs at 3/1 or more", "Free bet stakes aren't returned"],
-    "check": { "status": "checked", "note": "" },
-    "source": { "name": "TNT Sports", "url": "https://www.tntsports.co.uk/betting/skybet/code/", "updated": "2026-08-31" },
+    "terms": [
+      "New customers only, 18+. Anyone who has ever had a Sky Bet, Sky Vegas, Sky Casino, Sky Poker or Sky Bingo account is not new",
+      "The free bets can't be used on singles",
+      "Also includes a Ghost Leg token for pre-match BuildABets of 5+ legs at 3/1 or more",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "checked",
+      "note": ""
+    },
+    "source": {
+      "name": "TNT Sports",
+      "url": "https://www.tntsports.co.uk/betting/skybet/code/",
+      "updated": "2026-08-31"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "coral", "bookmaker": "Coral", "kind": "sports",
-    "headline": "Bet £5, get £30 in free bets", "promoCode": null,
-    "qualifying": { "stake": 5, "minOdds": 1.5, "window": "Within 14 days of registering", "markets": "Sportsbook markets. Specials, Tote, pools and price-boosted bets are excluded." },
-    "freeBets": [
-      { "count": 4, "value": 5, "use": "single", "note": "Any sportsbook market" },
-      { "count": 1, "value": 5, "use": "betbuilder", "note": "Football Bet Builder" },
-      { "count": 1, "value": 5, "use": "betbuilder", "note": "Racing Bet Builder" }
+    "id": "coral",
+    "bookmaker": "Coral",
+    "kind": "sports",
+    "oddsKeys": [
+      "coral"
     ],
-    "credited": "As soon as the qualifying bet is placed", "expiry": "7 days",
+    "headline": "Bet £5, get £30 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 5,
+      "minOdds": 1.5,
+      "window": "Within 14 days of registering",
+      "markets": "Sportsbook markets. Specials, Tote, pools and price-boosted bets are excluded."
+    },
+    "freeBets": [
+      {
+        "count": 4,
+        "value": 5,
+        "use": "single",
+        "note": "Any sportsbook market"
+      },
+      {
+        "count": 1,
+        "value": 5,
+        "use": "betbuilder",
+        "note": "Football Bet Builder"
+      },
+      {
+        "count": 1,
+        "value": 5,
+        "use": "betbuilder",
+        "note": "Racing Bet Builder"
+      }
+    ],
+    "credited": "As soon as the qualifying bet is placed",
+    "expiry": "7 days",
     "payments": "Minimum £5 deposit. PayPal, Skrill, NETELLER, Paysafecard and prepaid cards don't qualify.",
-    "terms": ["New UK and Ireland customers only, 18+", "Free bet stakes aren't returned"],
-    "check": { "status": "checked", "note": "" },
-    "source": { "name": "Sportsmole", "url": "https://www.sportsmole.co.uk/online/coral/code/", "updated": "2026-06-29" },
+    "terms": [
+      "New UK and Ireland customers only, 18+",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "checked",
+      "note": ""
+    },
+    "source": {
+      "name": "Sportsmole",
+      "url": "https://www.sportsmole.co.uk/online/coral/code/",
+      "updated": "2026-06-29"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "ladbrokes", "bookmaker": "Ladbrokes", "kind": "sports",
-    "headline": "Bet £5, get £30 in free bets", "promoCode": null,
-    "qualifying": { "stake": 5, "minOdds": 1.5, "window": "Within 14 days of registering", "markets": "Your first win or each-way bet, on any sport" },
-    "freeBets": [ { "count": 6, "value": 5, "use": "single", "note": "Selected sportsbook markets" } ],
-    "credited": "After the qualifying bet settles", "expiry": "7 days",
+    "id": "ladbrokes",
+    "bookmaker": "Ladbrokes",
+    "kind": "sports",
+    "oddsKeys": [
+      "ladbrokes_uk"
+    ],
+    "headline": "Bet £5, get £30 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 5,
+      "minOdds": 1.5,
+      "window": "Within 14 days of registering",
+      "markets": "Your first win or each-way bet, on any sport"
+    },
+    "freeBets": [
+      {
+        "count": 6,
+        "value": 5,
+        "use": "single",
+        "note": "Selected sportsbook markets"
+      }
+    ],
+    "credited": "After the qualifying bet settles",
+    "expiry": "7 days",
     "payments": "PayPal, NETELLER, Paysafe, Skrill and prepaid cards don't qualify.",
-    "terms": ["New UK and Ireland customers only, 18+", "Free bet stakes aren't returned", "Certain bet types excluded"],
-    "check": { "status": "checked", "note": "One older listing (City AM) shows 'Bet £10 get £30'. Sportsmole's more recent page says £5." },
-    "source": { "name": "Sportsmole", "url": "https://www.sportsmole.co.uk/online/ladbrokes/code/", "updated": "2026-07-11" },
+    "terms": [
+      "New UK and Ireland customers only, 18+",
+      "Free bet stakes aren't returned",
+      "Certain bet types excluded"
+    ],
+    "check": {
+      "status": "checked",
+      "note": "One older listing (City AM) shows 'Bet £10 get £30'. Sportsmole's more recent page says £5."
+    },
+    "source": {
+      "name": "Sportsmole",
+      "url": "https://www.sportsmole.co.uk/online/ladbrokes/code/",
+      "updated": "2026-07-11"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "betfred", "bookmaker": "Betfred", "kind": "sports",
-    "headline": "Bet £10, get £50 in free bets", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 2.0, "window": "First sports bet within 7 days of registering", "markets": "Any sports market" },
-    "freeBets": [
-      { "count": 3, "value": 10, "use": "single", "note": "Any sportsbook market" },
-      { "count": 2, "value": 10, "use": "acca", "note": "Win-only accumulators of 4+ selections" }
+    "id": "betfred",
+    "bookmaker": "Betfred",
+    "kind": "sports",
+    "oddsKeys": [
+      "betfred_uk",
+      "betfred"
     ],
-    "credited": "Within 10 hours of the qualifying bet settling", "expiry": "7 days",
+    "headline": "Bet £10, get £50 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 2.0,
+      "window": "First sports bet within 7 days of registering",
+      "markets": "Any sports market"
+    },
+    "freeBets": [
+      {
+        "count": 3,
+        "value": 10,
+        "use": "single",
+        "note": "Any sportsbook market"
+      },
+      {
+        "count": 2,
+        "value": 10,
+        "use": "acca",
+        "note": "Win-only accumulators of 4+ selections"
+      }
+    ],
+    "credited": "Within 10 hours of the qualifying bet settling",
+    "expiry": "7 days",
     "payments": "Debit card, Apple Pay (with a debit card) or instant bank transfer. E-wallets and credit cards don't qualify.",
-    "terms": ["New customers in the UK, Ireland or Gibraltar, 18+", "One offer per household, IP address or mobile number", "Free bet stakes aren't returned; winnings are withdrawable"],
-    "check": { "status": "checked", "note": "" },
-    "source": { "name": "Top End Sports", "url": "https://www.topendsports.com/en-gb/sports-betting/reviews/betfred-review/", "updated": "2026-06-15" },
+    "terms": [
+      "New customers in the UK, Ireland or Gibraltar, 18+",
+      "One offer per household, IP address or mobile number",
+      "Free bet stakes aren't returned; winnings are withdrawable"
+    ],
+    "check": {
+      "status": "checked",
+      "note": ""
+    },
+    "source": {
+      "name": "Top End Sports",
+      "url": "https://www.topendsports.com/en-gb/sports-betting/reviews/betfred-review/",
+      "updated": "2026-06-15"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "betvictor", "bookmaker": "BetVictor", "kind": "sports",
-    "headline": "Bet £10, get £30 in football free bets + a 100% boost token", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 2.0, "window": "Within 7 days of registering", "markets": "Football only. Opt in from the Offers tab. No cash out." },
-    "freeBets": [
-      { "count": 1, "value": 5, "use": "acca", "note": "Acca of 2+ selections" },
-      { "count": 1, "value": 10, "use": "acca", "note": "Acca of 2+ selections, credited 24 hours later" },
-      { "count": 2, "value": 5, "use": "betbuilder", "note": "Bet Builder of 3+ selections (one credited 24 hours later)" },
-      { "count": 1, "value": 5, "use": "luckydip", "note": "Lucky Dip" }
+    "id": "betvictor",
+    "bookmaker": "BetVictor",
+    "kind": "sports",
+    "oddsKeys": [
+      "betvictor"
     ],
-    "credited": "After the qualifying bet; some tokens arrive 24 hours later", "expiry": "7 days",
+    "headline": "Bet £10, get £30 in football free bets + a 100% boost token",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 2.0,
+      "window": "Within 7 days of registering",
+      "markets": "Football only. Opt in from the Offers tab. No cash out."
+    },
+    "freeBets": [
+      {
+        "count": 1,
+        "value": 5,
+        "use": "acca",
+        "note": "Acca of 2+ selections"
+      },
+      {
+        "count": 1,
+        "value": 10,
+        "use": "acca",
+        "note": "Acca of 2+ selections, credited 24 hours later"
+      },
+      {
+        "count": 2,
+        "value": 5,
+        "use": "betbuilder",
+        "note": "Bet Builder of 3+ selections (one credited 24 hours later)"
+      },
+      {
+        "count": 1,
+        "value": 5,
+        "use": "luckydip",
+        "note": "Lucky Dip"
+      }
+    ],
+    "credited": "After the qualifying bet; some tokens arrive 24 hours later",
+    "expiry": "7 days",
     "payments": "Visa, Mastercard, Apple Pay or Google Pay.",
-    "terms": ["New customers only, 18+", "The 100% boost token is for accas of 3+ selections, max £10 stake", "Free bet stakes aren't returned"],
-    "check": { "status": "checked", "note": "Some older listings show £40." },
-    "source": { "name": "TNT Sports", "url": "https://www.tntsports.co.uk/betting/betvictor/code/", "updated": "2026-07-19" },
+    "terms": [
+      "New customers only, 18+",
+      "The 100% boost token is for accas of 3+ selections, max £10 stake",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "checked",
+      "note": "Some older listings show £40."
+    },
+    "source": {
+      "name": "TNT Sports",
+      "url": "https://www.tntsports.co.uk/betting/betvictor/code/",
+      "updated": "2026-07-19"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "betway", "bookmaker": "Betway", "kind": "sports",
-    "headline": "Bet £10, get £40 in free bets", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 2.0, "window": "Within 7 days of your deposit. Opt in when you register.", "markets": "Singles at 2.0+, or each-way at 3.0+" },
-    "freeBets": [
-      { "count": 2, "value": 10, "use": "betbuilder", "note": "Bet Builders of 4+ legs at 4.0+" },
-      { "count": 2, "value": 10, "use": "acca", "note": "Accas of 4+ legs at 4.0+" }
+    "id": "betway",
+    "bookmaker": "Betway",
+    "kind": "sports",
+    "oddsKeys": [
+      "betway"
     ],
-    "credited": "When the qualifying bet settles", "expiry": "7 days",
+    "headline": "Bet £10, get £40 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 2.0,
+      "window": "Within 7 days of your deposit. Opt in when you register.",
+      "markets": "Singles at 2.0+, or each-way at 3.0+"
+    },
+    "freeBets": [
+      {
+        "count": 2,
+        "value": 10,
+        "use": "betbuilder",
+        "note": "Bet Builders of 4+ legs at 4.0+"
+      },
+      {
+        "count": 2,
+        "value": 10,
+        "use": "acca",
+        "note": "Accas of 4+ legs at 4.0+"
+      }
+    ],
+    "credited": "When the qualifying bet settles",
+    "expiry": "7 days",
     "payments": "Debit card deposit required. PayPal, Skrill, NETELLER and Paysafecard don't qualify.",
-    "terms": ["New UK customers only, 18+", "Free bet stakes aren't returned"],
-    "check": { "status": "checked", "note": "Other sites list a £30 matched free bet or a £60 package, so check when you sign up." },
-    "source": { "name": "BettingOdds.com", "url": "https://www.bettingodds.com/bookmakers/betway", "updated": "2026-06-11" },
+    "terms": [
+      "New UK customers only, 18+",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "checked",
+      "note": "Other sites list a £30 matched free bet or a £60 package, so check when you sign up."
+    },
+    "source": {
+      "name": "BettingOdds.com",
+      "url": "https://www.bettingodds.com/bookmakers/betway",
+      "updated": "2026-06-11"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "boylesports", "bookmaker": "BoyleSports", "kind": "sports",
-    "headline": "Bet £10, get £30 in free bets", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 2.0, "window": "Within 30 days of registering", "markets": "Your first bet. Cashed-out bets don't count." },
-    "freeBets": [ { "count": 1, "value": 30, "use": "unknown", "note": "The source doesn't say how the £30 is split" } ],
-    "credited": "After the qualifying bet settles", "expiry": "7 days",
+    "id": "boylesports",
+    "bookmaker": "BoyleSports",
+    "kind": "sports",
+    "oddsKeys": [
+      "boylesports"
+    ],
+    "headline": "Bet £10, get £30 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 2.0,
+      "window": "Within 30 days of registering",
+      "markets": "Your first bet. Cashed-out bets don't count."
+    },
+    "freeBets": [
+      {
+        "count": 1,
+        "value": 30,
+        "use": "unknown",
+        "note": "The source doesn't say how the £30 is split"
+      }
+    ],
+    "credited": "After the qualifying bet settles",
+    "expiry": "7 days",
     "payments": "Debit card deposits only.",
-    "terms": ["New UK customers only, excluding Northern Ireland, 18+", "Mobile only", "One offer per customer, household and IP address"],
-    "check": { "status": "conflicting", "note": "Sportsmole (June 2026) says £30. BettingOdds.com says £40. Check on BoyleSports' site when you sign up." },
-    "source": { "name": "Sportsmole", "url": "https://www.sportsmole.co.uk/online/boylesports/code/", "updated": "2026-06-01" },
+    "terms": [
+      "New UK customers only, excluding Northern Ireland, 18+",
+      "Mobile only",
+      "One offer per customer, household and IP address"
+    ],
+    "check": {
+      "status": "conflicting",
+      "note": "Sportsmole (June 2026) says £30. BettingOdds.com says £40. Check on BoyleSports' site when you sign up."
+    },
+    "source": {
+      "name": "Sportsmole",
+      "url": "https://www.sportsmole.co.uk/online/boylesports/code/",
+      "updated": "2026-06-01"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "unibet", "bookmaker": "Unibet", "kind": "sports",
-    "headline": "Bet £20, get £40 in free bets", "promoCode": null,
-    "qualifying": { "stake": 20, "minOdds": 2.0, "window": "Qualifying bets must settle within 7 days of registering", "markets": "Any sport except horse racing, greyhounds and trotting. Boosted odds don't count." },
-    "freeBets": [
-      { "count": 3, "value": 10, "use": "betbuilder", "note": "Bet Builders of 4+ selections" },
-      { "count": 1, "value": 10, "use": "acca", "note": "Accumulator of 4+ selections" }
+    "id": "unibet",
+    "bookmaker": "Unibet",
+    "kind": "sports",
+    "oddsKeys": [
+      "unibet_uk"
     ],
-    "credited": "Same day, or within 48 hours if bets settle after your registration day", "expiry": "7 days",
+    "headline": "Bet £20, get £40 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 20,
+      "minOdds": 2.0,
+      "window": "Qualifying bets must settle within 7 days of registering",
+      "markets": "Any sport except horse racing, greyhounds and trotting. Boosted odds don't count."
+    },
+    "freeBets": [
+      {
+        "count": 3,
+        "value": 10,
+        "use": "betbuilder",
+        "note": "Bet Builders of 4+ selections"
+      },
+      {
+        "count": 1,
+        "value": 10,
+        "use": "acca",
+        "note": "Accumulator of 4+ selections"
+      }
+    ],
+    "credited": "Same day, or within 48 hours if bets settle after your registration day",
+    "expiry": "7 days",
     "payments": "Debit card or instant bank transfer only.",
-    "terms": ["New GB customers only, 18+", "Free bet stakes aren't returned"],
-    "check": { "status": "checked", "note": "Some sites still show an older 'Bet £10 get £30' version." },
-    "source": { "name": "BettingOdds.com", "url": "https://www.bettingodds.com/betting-sites/unibet", "updated": "2026-08-07" },
-    "checkedOn": "2026-10-06"
-  },
-  {
-    "id": "888sport", "bookmaker": "888sport", "kind": "sports",
-    "headline": "Bet £10, get £30 in free bets (+ £10 casino bonus)", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": null, "window": "Not confirmed", "markets": "Not confirmed" },
-    "freeBets": [ { "count": 1, "value": 30, "use": "unknown", "note": "Split not confirmed" } ],
-    "credited": "Not confirmed", "expiry": "Not confirmed",
-    "payments": "Not confirmed. Use a debit card to be safe.",
-    "terms": ["New customers only, 18+", "Casino bonuses usually have wagering requirements, so read them before you play"],
-    "check": { "status": "partial", "note": "I couldn't open a page with 888sport's full terms. Search results mention both this offer and a 'bet £10, get £40 in Bet Builder free bets' offer." },
-    "source": { "name": "Search results (Squawka)", "url": "https://www.squawka.com/en/888-bttc-2/", "updated": null },
-    "checkedOn": "2026-10-06"
-  },
-  {
-    "id": "virginbet", "bookmaker": "Virgin Bet", "kind": "sports",
-    "headline": "Bet £10, get £30 in free bets", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 1.5, "window": "Must settle within 14 days of signing up", "markets": "Any sportsbook market except virtual sports" },
-    "freeBets": [
-      { "count": 2, "value": 10, "use": "single", "note": "Standard sportsbook bets, min odds 1.01" },
-      { "count": 2, "value": 5, "use": "betbuilder", "note": "Bet Builders, min odds 2.0" }
+    "terms": [
+      "New GB customers only, 18+",
+      "Free bet stakes aren't returned"
     ],
-    "credited": "Accept the tokens from the notification within 7 days", "expiry": "7 days after accepting",
+    "check": {
+      "status": "checked",
+      "note": "Some sites still show an older 'Bet £10 get £30' version."
+    },
+    "source": {
+      "name": "BettingOdds.com",
+      "url": "https://www.bettingodds.com/betting-sites/unibet",
+      "updated": "2026-08-07"
+    },
+    "checkedOn": "2026-10-06"
+  },
+  {
+    "id": "888sport",
+    "bookmaker": "888sport",
+    "kind": "sports",
+    "oddsKeys": [
+      "sport888"
+    ],
+    "headline": "Bet £10, get £30 in free bets (+ £10 casino bonus)",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": null,
+      "window": "Not confirmed",
+      "markets": "Not confirmed"
+    },
+    "freeBets": [
+      {
+        "count": 1,
+        "value": 30,
+        "use": "unknown",
+        "note": "Split not confirmed"
+      }
+    ],
+    "credited": "Not confirmed",
+    "expiry": "Not confirmed",
+    "payments": "Not confirmed. Use a debit card to be safe.",
+    "terms": [
+      "New customers only, 18+",
+      "Casino bonuses usually have wagering requirements, so read them before you play"
+    ],
+    "check": {
+      "status": "partial",
+      "note": "I couldn't open a page with 888sport's full terms. Search results mention both this offer and a 'bet £10, get £40 in Bet Builder free bets' offer."
+    },
+    "source": {
+      "name": "Search results (Squawka)",
+      "url": "https://www.squawka.com/en/888-bttc-2/",
+      "updated": null
+    },
+    "checkedOn": "2026-10-06"
+  },
+  {
+    "id": "virginbet",
+    "bookmaker": "Virgin Bet",
+    "kind": "sports",
+    "oddsKeys": [
+      "virginbet"
+    ],
+    "headline": "Bet £10, get £30 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 1.5,
+      "window": "Must settle within 14 days of signing up",
+      "markets": "Any sportsbook market except virtual sports"
+    },
+    "freeBets": [
+      {
+        "count": 2,
+        "value": 10,
+        "use": "single",
+        "note": "Standard sportsbook bets, min odds 1.01"
+      },
+      {
+        "count": 2,
+        "value": 5,
+        "use": "betbuilder",
+        "note": "Bet Builders, min odds 2.0"
+      }
+    ],
+    "credited": "Accept the tokens from the notification within 7 days",
+    "expiry": "7 days after accepting",
     "payments": "Minimum £10 deposit.",
-    "terms": ["New customers only, 18+", "Free bet stakes aren't returned"],
-    "check": { "status": "conflicting", "note": "BettingOdds.com says £30. Football Whispers (August 2026) says £20. Check when you sign up." },
-    "source": { "name": "BettingOdds.com", "url": "https://www.bettingodds.com/betting-sites/virgin-bet", "updated": null },
+    "terms": [
+      "New customers only, 18+",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "conflicting",
+      "note": "BettingOdds.com says £30. Football Whispers (August 2026) says £20. Check when you sign up."
+    },
+    "source": {
+      "name": "BettingOdds.com",
+      "url": "https://www.bettingodds.com/betting-sites/virgin-bet",
+      "updated": null
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "betfair-sportsbook", "bookmaker": "Betfair Sportsbook", "kind": "sports",
-    "headline": "Bet £10, get £50 in free bets", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 2.0, "window": "Within 30 days of opening your account", "markets": "Any Sportsbook market (not the Exchange)" },
-    "freeBets": [ { "count": 5, "value": 10, "use": "acca", "note": "Bet Builders, accumulators or multiples on any sport" } ],
-    "credited": "When the qualifying bet settles", "expiry": "30 days",
+    "id": "betfair-sportsbook",
+    "bookmaker": "Betfair Sportsbook",
+    "kind": "sports",
+    "oddsKeys": [
+      "betfair_sb_uk"
+    ],
+    "headline": "Bet £10, get £50 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 2.0,
+      "window": "Within 30 days of opening your account",
+      "markets": "Any Sportsbook market (not the Exchange)"
+    },
+    "freeBets": [
+      {
+        "count": 5,
+        "value": 10,
+        "use": "acca",
+        "note": "Bet Builders, accumulators or multiples on any sport"
+      }
+    ],
+    "credited": "When the qualifying bet settles",
+    "expiry": "30 days",
     "payments": "Pay by Bank, Apple Pay or debit card. PayPal, Skrill and NETELLER don't qualify.",
-    "terms": ["New customers only, 18+", "Free bet stakes aren't returned"],
-    "check": { "status": "checked", "note": "One Betfair account covers the Sportsbook and the Exchange." },
-    "source": { "name": "Sportsmole", "url": "https://www.sportsmole.co.uk/online/betfair/code/", "updated": "2026-06-17" },
+    "terms": [
+      "New customers only, 18+",
+      "Free bet stakes aren't returned"
+    ],
+    "check": {
+      "status": "checked",
+      "note": "One Betfair account covers the Sportsbook and the Exchange."
+    },
+    "source": {
+      "name": "Sportsmole",
+      "url": "https://www.sportsmole.co.uk/online/betfair/code/",
+      "updated": "2026-06-17"
+    },
     "checkedOn": "2026-10-06"
   },
   {
-    "id": "livescorebet", "bookmaker": "LiveScore Bet", "kind": "sports",
-    "headline": "Bet £10, get £30 in free bets", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": 1.5, "window": "Must settle within 14 days", "markets": "Sports except virtuals. Each-way bets don't count." },
-    "freeBets": [
-      { "count": 2, "value": 10, "use": "single", "note": "Sportsbook (the source gives £20 in total)" },
-      { "count": 1, "value": 10, "use": "betbuilder", "note": "Bet Builder" }
+    "id": "livescorebet",
+    "bookmaker": "LiveScore Bet",
+    "kind": "sports",
+    "oddsKeys": [
+      "livescorebet"
     ],
-    "credited": "Accept within 7 days", "expiry": "7 days after accepting",
+    "headline": "Bet £10, get £30 in free bets",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": 1.5,
+      "window": "Must settle within 14 days",
+      "markets": "Sports except virtuals. Each-way bets don't count."
+    },
+    "freeBets": [
+      {
+        "count": 2,
+        "value": 10,
+        "use": "single",
+        "note": "Sportsbook (the source gives £20 in total)"
+      },
+      {
+        "count": 1,
+        "value": 10,
+        "use": "betbuilder",
+        "note": "Bet Builder"
+      }
+    ],
+    "credited": "Accept within 7 days",
+    "expiry": "7 days after accepting",
     "payments": "Not confirmed. Use a debit card to be safe.",
-    "terms": ["New customers in Great Britain and Ireland, 18+", "Free bet stakes aren't returned"],
-    "check": { "status": "partial", "note": "Taken from a search summary of BettingOdds.com and City AM. I couldn't open the full terms." },
-    "source": { "name": "BettingOdds.com", "url": "https://www.bettingodds.com/betting-sites/livescore-bet", "updated": null },
-    "checkedOn": "2026-10-06"
-  },
-  {
-    "id": "bet365", "bookmaker": "Bet365", "kind": "sports",
-    "headline": "Bet £10, get £30 in Bet Credits", "promoCode": null,
-    "qualifying": { "stake": 10, "minOdds": null, "window": "Not confirmed", "markets": "Not confirmed" },
-    "freeBets": [ { "count": 1, "value": 30, "use": "single", "note": "Paid as Bet Credits once qualifying bets to the value of your deposit settle" } ],
-    "credited": "After qualifying bets to the value of your deposit settle", "expiry": "Not confirmed",
-    "payments": "Payment method exclusions apply.",
-    "terms": ["New customers only, 18+", "Returns exclude the Bet Credits stake", "Minimum odds apply"],
-    "check": { "status": "partial", "note": "The minimum odds, time limits and payment exclusions weren't in the sources I could read. Check them on Bet365 before you bet." },
-    "source": { "name": "Search results (SailGP, Goal)", "url": "https://sailgp.com/uk-betting-promos/bet365/new-customer-offer", "updated": null },
-    "checkedOn": "2026-10-06"
-  },
-  {
-    "id": "betfair-exchange", "bookmaker": "Betfair Exchange", "kind": "exchange",
-    "headline": "Shares an account with Betfair Sportsbook", "promoCode": null,
-    "qualifying": null, "freeBets": [], "credited": null, "expiry": null,
-    "payments": "Pay by Bank, Apple Pay or debit card.",
-    "terms": ["The welcome offer is on the Betfair Sportsbook side (see that offer)", "One review mentions a separate £20 free Exchange bet, which I couldn't confirm"],
-    "check": { "status": "partial", "note": "No separate Exchange offer confirmed." },
-    "source": { "name": "Sportsmole", "url": "https://www.sportsmole.co.uk/online/betfair/code/", "updated": "2026-06-17" },
-    "checkedOn": "2026-10-06"
-  },
-  {
-    "id": "smarkets", "bookmaker": "Smarkets", "kind": "exchange",
-    "headline": "0% commission for your first 60 days", "promoCode": "COMMFREE",
-    "qualifying": null, "freeBets": [], "credited": null, "expiry": "60 days",
-    "payments": "Minimum first deposit £10. Skrill, NETELLER, PayPal and virtual or prepaid cards don't qualify.",
-    "terms": ["New UK, Ireland and Malta users only, 18+", "One per person, household, payment account and IP address", "Not available if you trade through the API or trading software", "Standard commission (2%) applies afterwards"],
-    "check": { "status": "partial", "note": "Taken from a search summary of several review sites." },
-    "source": { "name": "BettingOdds.com", "url": "https://www.bettingodds.com/betting-sites/smarkets", "updated": null },
-    "checkedOn": "2026-10-06"
-  },
-  {
-    "id": "matchbook", "bookmaker": "Matchbook", "kind": "exchange",
-    "headline": "Bet £20, get £30 in free bets", "promoCode": "NEW30",
-    "qualifying": { "stake": 20, "minOdds": 2.0, "window": "Not confirmed", "markets": "1 × £10 Exchange back bet at 2.0+, plus 1 × £10 Bet Builder or multiple at 3.0+ with 3+ selections" },
-    "freeBets": [
-      { "count": 1, "value": 10, "use": "single", "note": "Exchange free bet" },
-      { "count": 1, "value": 10, "use": "acca", "note": "Multiples free bet" },
-      { "count": 1, "value": 10, "use": "betbuilder", "note": "Bet Builder free bet" }
+    "terms": [
+      "New customers in Great Britain and Ireland, 18+",
+      "Free bet stakes aren't returned"
     ],
-    "credited": "Within 72 hours of the qualifying bets settling", "expiry": "Not confirmed",
+    "check": {
+      "status": "partial",
+      "note": "Taken from a search summary of BettingOdds.com and City AM. I couldn't open the full terms."
+    },
+    "source": {
+      "name": "BettingOdds.com",
+      "url": "https://www.bettingodds.com/betting-sites/livescore-bet",
+      "updated": null
+    },
+    "checkedOn": "2026-10-06"
+  },
+  {
+    "id": "bet365",
+    "bookmaker": "Bet365",
+    "kind": "sports",
+    "oddsKeys": [],
+    "headline": "Bet £10, get £30 in Bet Credits",
+    "promoCode": null,
+    "qualifying": {
+      "stake": 10,
+      "minOdds": null,
+      "window": "Not confirmed",
+      "markets": "Not confirmed"
+    },
+    "freeBets": [
+      {
+        "count": 1,
+        "value": 30,
+        "use": "single",
+        "note": "Paid as Bet Credits once qualifying bets to the value of your deposit settle"
+      }
+    ],
+    "credited": "After qualifying bets to the value of your deposit settle",
+    "expiry": "Not confirmed",
+    "payments": "Payment method exclusions apply.",
+    "terms": [
+      "New customers only, 18+",
+      "Returns exclude the Bet Credits stake",
+      "Minimum odds apply"
+    ],
+    "check": {
+      "status": "partial",
+      "note": "The minimum odds, time limits and payment exclusions weren't in the sources I could read. Check them on Bet365 before you bet."
+    },
+    "source": {
+      "name": "Search results (SailGP, Goal)",
+      "url": "https://sailgp.com/uk-betting-promos/bet365/new-customer-offer",
+      "updated": null
+    },
+    "checkedOn": "2026-10-06"
+  },
+  {
+    "id": "betfair-exchange",
+    "bookmaker": "Betfair Exchange",
+    "kind": "exchange",
+    "oddsKeys": [],
+    "headline": "Shares an account with Betfair Sportsbook",
+    "promoCode": null,
+    "qualifying": null,
+    "freeBets": [],
+    "credited": null,
+    "expiry": null,
+    "payments": "Pay by Bank, Apple Pay or debit card.",
+    "terms": [
+      "The welcome offer is on the Betfair Sportsbook side (see that offer)",
+      "One review mentions a separate £20 free Exchange bet, which I couldn't confirm"
+    ],
+    "check": {
+      "status": "partial",
+      "note": "No separate Exchange offer confirmed."
+    },
+    "source": {
+      "name": "Sportsmole",
+      "url": "https://www.sportsmole.co.uk/online/betfair/code/",
+      "updated": "2026-06-17"
+    },
+    "checkedOn": "2026-10-06"
+  },
+  {
+    "id": "smarkets",
+    "bookmaker": "Smarkets",
+    "kind": "exchange",
+    "oddsKeys": [],
+    "headline": "0% commission for your first 60 days",
+    "promoCode": "COMMFREE",
+    "qualifying": null,
+    "freeBets": [],
+    "credited": null,
+    "expiry": "60 days",
+    "payments": "Minimum first deposit £10. Skrill, NETELLER, PayPal and virtual or prepaid cards don't qualify.",
+    "terms": [
+      "New UK, Ireland and Malta users only, 18+",
+      "One per person, household, payment account and IP address",
+      "Not available if you trade through the API or trading software",
+      "Standard commission (2%) applies afterwards"
+    ],
+    "check": {
+      "status": "partial",
+      "note": "Taken from a search summary of several review sites."
+    },
+    "source": {
+      "name": "BettingOdds.com",
+      "url": "https://www.bettingodds.com/betting-sites/smarkets",
+      "updated": null
+    },
+    "checkedOn": "2026-10-06"
+  },
+  {
+    "id": "matchbook",
+    "bookmaker": "Matchbook",
+    "kind": "exchange",
+    "oddsKeys": [],
+    "headline": "Bet £20, get £30 in free bets",
+    "promoCode": "NEW30",
+    "qualifying": {
+      "stake": 20,
+      "minOdds": 2.0,
+      "window": "Not confirmed",
+      "markets": "1 × £10 Exchange back bet at 2.0+, plus 1 × £10 Bet Builder or multiple at 3.0+ with 3+ selections"
+    },
+    "freeBets": [
+      {
+        "count": 1,
+        "value": 10,
+        "use": "single",
+        "note": "Exchange free bet"
+      },
+      {
+        "count": 1,
+        "value": 10,
+        "use": "acca",
+        "note": "Multiples free bet"
+      },
+      {
+        "count": 1,
+        "value": 10,
+        "use": "betbuilder",
+        "note": "Bet Builder free bet"
+      }
+    ],
+    "credited": "Within 72 hours of the qualifying bets settling",
+    "expiry": "Not confirmed",
     "payments": "Skrill, NETELLER and Paysafecard deposits don't qualify.",
-    "terms": ["New customers only, 18+"],
-    "check": { "status": "partial", "note": "From a search summary (Football Whispers, January 2026). Check it's still running." },
-    "source": { "name": "Football Whispers", "url": "https://footballwhispers.com/blog/matchbook-bonus-code/", "updated": null },
+    "terms": [
+      "New customers only, 18+"
+    ],
+    "check": {
+      "status": "partial",
+      "note": "From a search summary (Football Whispers, January 2026). Check it's still running."
+    },
+    "source": {
+      "name": "Football Whispers",
+      "url": "https://footballwhispers.com/blog/matchbook-bonus-code/",
+      "updated": null
+    },
     "checkedOn": "2026-10-06"
   }
 ]

@@ -85,3 +85,21 @@ test('filters by exchange, sport and SNR rating; sorts by any column', () => {
   assert.equal(filterAndSort(rows, { now: NOW, sort: 'time', reverse: true })[0].sportKey, 'basketball_nba');
   assert.equal(filterAndSort(rows, { now: NOW, sort: 'backOdds' })[0].backOdds, 6.0);
 });
+
+test('captures safe bookmaker and exchange links', () => {
+  const ev = event('e1', 5, [
+    { key: 'coral', title: 'Coral', link: 'https://coral.example/event', markets: [{ key: 'h2h', outcomes: [
+      { name: 'Arsenal', price: 2.0, link: 'https://coral.example/slip?sel=1' },
+      { name: 'Chelsea', price: 4.0, link: 'javascript:alert(1)' }
+    ] }] },
+    { key: 'smarkets', title: 'Smarkets', markets: [{ key: 'h2h_lay', link: 'https://smarkets.example/m', outcomes: [
+      { name: 'Arsenal', price: 2.02 }, { name: 'Chelsea', price: 4.1 }
+    ] }] }
+  ]);
+  const rows = buildMatches([ev]);
+  const ars = rows.find(r => r.selection === 'Arsenal');
+  const che = rows.find(r => r.selection === 'Chelsea');
+  assert.equal(ars.backLink, 'https://coral.example/slip?sel=1');
+  assert.equal(ars.layLink, 'https://smarkets.example/m');
+  assert.equal(che.backLink, 'https://coral.example/event', 'unsafe link falls back to the event link');
+});

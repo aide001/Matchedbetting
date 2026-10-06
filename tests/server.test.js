@@ -328,3 +328,76 @@ test('Brevo mailer sends the expected request', async () => {
   assert.deepEqual(await noKey.send({ to: 'a@example.com', subject: 's', text: 'the body', html: 'h' }), { logged: true });
   assert.match(logged[0], /the body/);
 });
+
+test('bet plans: on the page and by email, built from live odds with links', async () => {
+  const start = new Date(Date.now() + 5 * 3600e3).toISOString();
+  const events = [{ id: 'e1', sport_key: 'soccer_epl', sport_title: 'EPL', commence_time: start, home_team: 'Arsenal', away_team: '<b>Chelsea</b>',
+    bookmakers: [
+      { key: 'williamhill', title: 'William Hill', link: 'https://wh.example/event', markets: [{ key: 'h2h', outcomes: [
+        { name: 'Arsenal', price: 2.1 }, { name: 'Draw', price: 3.4 }, { name: '<b>Chelsea</b>', price: 4.0 }] }] },
+      { key: 'betfair_ex_uk', title: 'Betfair', markets: [{ key: 'h2h_lay', outcomes: [
+        { name: 'Arsenal', price: 2.12, link: 'https://bf.example/market' }, { name: 'Draw', price: 3.6 }, { name: '<b>Chelsea</b>', price: 4.2 }] }] }
+    ] }];
+  let oddsUrl;
+  const fetchImpl = async (url) => { oddsUrl = url; return new Response(JSON.stringify(events)); };
+  const mailer = fakeMailer();
+  const s = await startServer({ oddsApiKey: 'k', fetchImpl, mailer, appUrl: 'https://matchedbet.example' });
+  const c = client(s.base);
+  try {
+    assert.equal((await c('GET', '/api/offers/williamhill/plan?step=qualifying')).status, 401);
+    await c('POST', '/api/auth/register', ALICE);
+
+    let r = await c('GET', '/api/offers/williamhill/plan?step=qualifying');
+    assert.equal(r.status, 200);
+    assert.match(oddsUrl, /includeLinks=true/);
+    assert.equal(r.json.sample, false);
+    const p = r.json.plan;
+    assert.equal(p.ok, true);
+    assert.equal(p.selection, 'Arsenal');
+    assert.equal(p.back.odds, 2.1);
+    assert.equal(p.back.stake, 10);
+    assert.equal(p.back.link, 'https://wh.example/event');
+    assert.equal(p.lay.exchange, 'Betfair');
+    assert.equal(p.lay.link, 'https://bf.example/market');
+    assert.equal(p.lay.odds, 2.12);
+    assert.ok(p.lay.stake > 9 && p.lay.stake < 11);
+
+    r = await c('GET', '/api/offers/williamhill/plan?step=free');
+    assert.equal(r.json.plan.selection, '<b>Chelsea</b>');
+
+    r = await c('GET', '/api/offers/bet365/plan?step=qualifying');
+    assert.equal(r.json.plan.ok, false);
+    assert.equal(r.json.plan.reason, 'not-in-feed');
+    assert.equal((await c('GET', '/api/offers/williamhill/plan?step=bogus')).status, 400);
+    assert.equal((await c('GET', '/api/offers/nope/plan?step=free')).status, 404);
+
+    r = await c('POST', '/api/offers/williamhill/plan/email', { step: 'free' });
+    assert.equal(r.status, 200);
+    assert.equal(mailer.sent.length, 1);
+    const mail = mailer.sent[0];
+    assert.equal(mail.to, 'alice@example.com');
+    assert.equal(mail.subject, 'William Hill: your £10 free bet, step by step');
+    assert.match(mail.text, /BACK at William Hill/);
+    assert.match(mail.text, /Odds: 4\.00/);
+    assert.match(mail.text, /LAY at Betfair/);
+    assert.match(mail.text, /https:\/\/matchedbet\.example\/calculator\.html\?type=free-snr&stake=10&backOdds=4&layOdds=4\.2&commission=5/);
+    assert.ok(mail.html.includes('&lt;b&gt;Chelsea&lt;/b&gt;'), 'names from the feed are escaped');
+    assert.ok(!mail.html.includes('<b>Chelsea</b>'));
+    assert.ok(mail.html.includes('href="https://wh.example/event"'));
+
+    assert.equal((await c('POST', '/api/offers/bet365/plan/email', { step: 'qualifying' })).status, 409);
+  } finally { await s.close(); }
+});
+
+test('bet plan emails say clearly when odds are samples', async () => {
+  const mailer = fakeMailer();
+  const s = await startServer({ mailer, appUrl: 'https://matchedbet.example' });
+  const c = client(s.base);
+  try {
+    await c('POST', '/api/auth/register', ALICE);
+    const r = await c('POST', '/api/offers/coral/plan/email', { step: 'qualifying' });
+    assert.equal(r.status, 200);
+    assert.match(mailer.sent[0].subject, /^\[SAMPLE ODDS\] Coral/);
+    assert.match(mailer.sent[0].text, /SAMPLE ODDS FOR TESTING/);
+  } finally { await s.close(); }
+});
