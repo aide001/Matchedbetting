@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Oddsmatcher – MatchedBet</title>
   <meta name="description" content="Find the closest bookmaker back odds and exchange lay odds for qualifying bets and free bets.">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="wide-page">
   <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="index.html">Matched<span>Bet</span></a>
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="oddsmatcher.html" aria-current="page">Oddsmatcher</a>
-      <a class="nav-link" href="calculator.html">Calculator</a>
-      <a class="nav-link" href="tracker.html">Profit tracker</a>
-      <a class="nav-link" href="guide.html">Guide</a>
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html" aria-current="page">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
     </nav>
   </header>
 
@@ -25,25 +29,6 @@
 
     <section class="card om-sourcebar" aria-label="Odds source">
       <p id="om-status" class="om-status" role="status">Loading odds…</p>
-      <details class="om-details om-own-key" id="om-own-key">
-        <summary>Load fresh odds with your own API key</summary>
-        <div class="om-source">
-          <div class="field">
-            <label for="om-key">The Odds API key</label>
-            <input id="om-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key">
-            <span class="hint">Optional. Get a free key (500 requests a month) at <a href="https://the-odds-api.com/" rel="noopener">the-odds-api.com</a>. The key is saved in this browser and sent only to The Odds API.</span>
-          </div>
-          <div class="field">
-            <label for="om-sport">Sport</label>
-            <select id="om-sport"></select>
-            <span class="hint">Each load uses 2 requests from your quota.</span>
-          </div>
-          <div class="btn-row om-actions">
-            <button class="btn" id="om-load" type="button">Load live odds</button>
-            <button class="btn secondary" id="om-demo" type="button">Use sample odds</button>
-          </div>
-        </div>
-      </details>
     </section>
 
     <div class="om-layout">
@@ -177,8 +162,8 @@
           <div class="stat"><div class="label">If exchange bet wins</div><div class="value" id="om-c-laywin">–</div></div>
         </div>
         <div class="btn-row" style="margin-top:1rem">
-          <a class="btn" id="om-c-log" href="tracker.html">Log in tracker</a>
-          <a class="btn secondary" id="om-c-full" href="calculator.html">Open full calculator</a>
+          <a class="btn" id="om-c-log" href="/tracker.html">Log in tracker</a>
+          <a class="btn secondary" id="om-c-full" href="/calculator.html">Open full calculator</a>
         </div>
       </form>
     </dialog>
@@ -189,9 +174,9 @@
     <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
   </footer>
 
-  <script src="js/calc.js"></script>
-  <script src="js/oddsmatch.js"></script>
-  <script src="js/demo-odds.js"></script>
-  <script src="js/oddsmatcher.js"></script>
+  <script src="/js/session.js"></script>
+  <script src="/js/calc.js"></script>
+  <script src="/js/oddsmatch.js"></script>
+  <script src="/js/oddsmatcher.js"></script>
 </body>
 </html>

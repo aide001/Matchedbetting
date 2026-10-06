@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up – MatchedBet</title>
+  <meta name="description" content="Create a free MatchedBet account.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html" aria-current="page">Sign up free</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="auth-main">
+    <form class="card auth-card" id="register-form" novalidate>
+      <h1>Create your free account</h1>
+      <p class="muted">Get the oddsmatcher, a sign-up offer checklist and a profit tracker that follows you across devices.</p>
+      <div class="field">
+        <label for="name">First name</label>
+        <input id="name" name="name" autocomplete="given-name" maxlength="60" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+        <span class="hint">At least 8 characters.</span>
+      </div>
+      <label class="check">
+        <input id="confirm-age" type="checkbox" required>
+        <span>I'm 18 or over, and I understand matched betting involves real money at bookmakers and exchanges.</span>
+      </label>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <button class="btn block" type="submit">Create account</button>
+      <p class="muted auth-switch">Already have an account? <a href="/login.html">Log in</a></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="/js/session.js"></script>
+  <script src="/js/auth-pages.js"></script>
+</body>
+</html>

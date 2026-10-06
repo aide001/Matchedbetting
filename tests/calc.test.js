@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const MBCalc = require('../js/calc.js');
+const MBCalc = require('../public/js/calc.js');
 
 const { BET_TYPES } = MBCalc;
 

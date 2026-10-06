@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard – MatchedBet</title>
+  <meta name="description" content="Your matched betting dashboard.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <h1 id="greeting">Your dashboard</h1>
+    <p class="muted">Your profit so far, and what to do next.</p>
+
+    <div class="grid cols-4 stat-row">
+      <div class="card stat"><div class="label">Total profit</div><div class="value" id="d-total">–</div></div>
+      <div class="card stat"><div class="label">This month</div><div class="value" id="d-month">–</div></div>
+      <div class="card stat"><div class="label">Bets logged</div><div class="value" id="d-count">–</div></div>
+      <div class="card stat"><div class="label">Sign-up offers done</div><div class="value" id="d-offers">–</div></div>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:1rem">
+      <section class="card">
+        <div class="section-head"><h2 class="h-small">Next offers to do</h2><a href="/offers.html">All offers</a></div>
+        <ul class="plain-list" id="d-next"></ul>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2 class="h-small">Recent bets</h2><a href="/tracker.html">Profit tracker</a></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Bookmaker</th><th>Type</th><th class="num">Profit</th></tr></thead>
+            <tbody id="d-recent"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <h2>Tools</h2>
+    <div class="grid cols-4">
+      <a class="card tool-card" href="/oddsmatcher.html"><h3>Oddsmatcher</h3><p class="muted">Find the closest back and lay odds.</p></a>
+      <a class="card tool-card" href="/calculator.html"><h3>Calculator</h3><p class="muted">Work out any lay stake.</p></a>
+      <a class="card tool-card" href="/offers.html"><h3>Offers</h3><p class="muted">Track each sign-up offer.</p></a>
+      <a class="card tool-card" href="/guide.html"><h3>Guide</h3><p class="muted">How matched betting works.</p></a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="/js/session.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,32 +1,9 @@
 (function () {
   'use strict';
 
-  var API = 'https://api.the-odds-api.com/v4/sports/';
-  var KEY_STORE = 'mb.odds.key';
   var SETTINGS_STORE = 'mb.odds.settings.v2';
-  var CACHE_STORE = 'mb.odds.cache.v1';
   var PAGE_SIZE = 50;
   var FILTER_FIELDS = ['om-stake', 'om-min', 'om-max', 'om-rating', 'om-hours'];
-  var SPORTS = [
-    ['upcoming', 'Next games, all sports'],
-    ['soccer_epl', 'Football – Premier League'],
-    ['soccer_efl_champ', 'Football – Championship'],
-    ['soccer_england_league1', 'Football – League One'],
-    ['soccer_england_league2', 'Football – League Two'],
-    ['soccer_fa_cup', 'Football – FA Cup'],
-    ['soccer_spl', 'Football – Scottish Premiership'],
-    ['soccer_uefa_champs_league', 'Football – Champions League'],
-    ['soccer_uefa_europa_league', 'Football – Europa League'],
-    ['soccer_spain_la_liga', 'Football – La Liga'],
-    ['soccer_germany_bundesliga', 'Football – Bundesliga'],
-    ['soccer_italy_serie_a', 'Football – Serie A'],
-    ['soccer_france_ligue_one', 'Football – Ligue 1'],
-    ['basketball_nba', 'Basketball – NBA'],
-    ['americanfootball_nfl', 'American football – NFL'],
-    ['icehockey_nhl', 'Ice hockey – NHL'],
-    ['mma_mixed_martial_arts', 'MMA'],
-    ['boxing_boxing', 'Boxing']
-  ];
   var CALC_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
     '<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>';
 
@@ -79,13 +56,6 @@
   }
 
   // ---------- Restore saved filters ----------
-  SPORTS.forEach(function (s) {
-    var o = el('option', null, s[1]);
-    o.value = s[0];
-    $('om-sport').appendChild(o);
-  });
-  $('om-sport').value = settings.sport || 'soccer_epl';
-  $('om-key').value = storeGet(KEY_STORE) || '';
   var modeRadio = document.querySelector('input[name="om-mode"][value="' + settings.mode + '"]');
   if (modeRadio) modeRadio.checked = true;
   FILTER_FIELDS.forEach(function (id) { if (settings[id] != null) $(id).value = settings[id]; });
@@ -98,68 +68,18 @@
     rebuild();
   }
 
-  function loadDemo() {
-    useEvents(MBDemoOdds.makeDemoOdds(Date.now()), 'demo', new Date().toISOString());
-    setStatus([sourceTag(), 'These prices are made up so you can see how the oddsmatcher works. Real odds appear here once the site\'s odds feed is set up.']);
-  }
-
-  function loadLive() {
-    var key = $('om-key').value.trim();
-    var sport = $('om-sport').value;
-    if (!key) {
-      $('om-own-key').open = true;
-      setStatus(['Paste your API key first. You can get a free one at the-odds-api.com.'], true);
-      $('om-key').focus();
-      return;
-    }
-    storeSet(KEY_STORE, key);
-    var url = API + encodeURIComponent(sport) + '/odds/?' + new URLSearchParams({
-      apiKey: key, regions: 'uk', markets: 'h2h,h2h_lay', oddsFormat: 'decimal', dateFormat: 'iso'
-    });
-    $('om-load').disabled = true;
-    setStatus(['Loading odds…']);
-    fetch(url).then(function (res) {
-      var remaining = res.headers.get('x-requests-remaining');
-      return res.json().catch(function () { return null; }).then(function (body) {
-        if (!res.ok) {
-          var msg = body && body.message ? body.message : 'The Odds API returned an error (' + res.status + ').';
-          if (res.status === 401) msg = 'The Odds API didn\'t accept that key. Check it and try again.';
-          if (res.status === 429) msg = 'You\'ve used up your API requests or are sending them too quickly. Wait a moment, or check your plan.';
-          throw new Error(msg);
-        }
-        var loadedAt = new Date().toISOString();
-        var cache = readJSON(storeGet(CACHE_STORE)) || {};
-        cache[sport] = { events: body, loadedAt: loadedAt };
-        storeSet(CACHE_STORE, JSON.stringify(cache));
-        useEvents(body, 'live', loadedAt);
-        var parts = [sourceTag(), body.length + ' events loaded.'];
-        if (remaining != null) parts.push(' ' + remaining + ' API requests left this month.');
-        if (!body.length) parts = [sourceTag(), 'No upcoming events for this sport right now. Try another sport.'];
-        setStatus(parts);
-      });
-    }).catch(function (err) {
-      var msg = err && err.message && err.message !== 'Failed to fetch' ? err.message
-        : 'Couldn\'t reach The Odds API. Check your connection. Some hosts and browser extensions block it.';
-      setStatus([msg], true);
-    }).then(function () {
-      $('om-load').disabled = false;
-    });
-  }
-
-  // Odds saved by the site's scheduled job (data/odds.json); shared by every visitor, no key needed.
-  function loadSiteOdds() {
-    return fetch('data/odds.json', { cache: 'no-cache' }).then(function (res) {
-      if (!res.ok) throw new Error('missing');
-      return res.json();
-    }).then(function (data) {
-      var events = [];
-      Object.keys(data.sports || {}).forEach(function (k) {
-        if (Array.isArray(data.sports[k])) events = events.concat(data.sports[k]);
-      });
-      if (!events.length) throw new Error('empty');
-      useEvents(events, 'site', data.fetchedAt);
-      setStatus([sourceTag(), events.length + ' upcoming events. Odds were updated ' + ago(data.fetchedAt) +
-        ' and refresh automatically every few hours.']);
+  function loadOdds() {
+    MBSession.api('GET', '/api/odds').then(function (d) {
+      useEvents(d.events, d.source === 'live' ? 'site' : 'demo', d.fetchedAt);
+      if (d.source !== 'live') {
+        setStatus([sourceTag(), 'These prices are made up so you can see how the oddsmatcher works. Real odds appear once the site is connected to an odds feed.']);
+      } else if (d.stale) {
+        setStatus([sourceTag(), 'Couldn\'t refresh the odds just now, so these are from ' + ago(d.fetchedAt) + '. Check prices carefully.']);
+      } else {
+        setStatus([sourceTag(), d.events.length + ' upcoming events. Odds updated ' + ago(d.fetchedAt) + '.']);
+      }
+    }, function (err) {
+      setStatus([err.message], true);
     });
   }
 
@@ -456,13 +376,6 @@
     });
   });
 
-  $('om-load').addEventListener('click', loadLive);
-  $('om-demo').addEventListener('click', loadDemo);
-  $('om-key').addEventListener('keydown', function (e) { if (e.key === 'Enter') loadLive(); });
-  $('om-sport').addEventListener('change', function () {
-    settings.sport = $('om-sport').value;
-    saveSettings();
-  });
 
   document.querySelector('.om-side').addEventListener('input', function (e) {
     if (e.target.closest('.checklist')) return;
@@ -478,7 +391,7 @@
   });
 
   $('om-reset').addEventListener('click', function () {
-    var keep = { sport: settings.sport, commissions: settings.commissions };
+    var keep = { commissions: settings.commissions };
     settings = Object.assign(defaultSettings(), keep);
     saveSettings();
     $('om-mode-q').checked = true;
@@ -505,13 +418,6 @@
   });
 
   // ---------- Start ----------
-  // This browser's own recent live load first, then the site's saved odds, then sample odds.
-  var cached = (readJSON(storeGet(CACHE_STORE)) || {})[$('om-sport').value];
-  if (cached && Array.isArray(cached.events) && Date.now() - Date.parse(cached.loadedAt) < 3 * 3600e3) {
-    useEvents(cached.events, 'live', cached.loadedAt);
-    setStatus([sourceTag(), 'Showing odds you loaded ' + ago(cached.loadedAt) + '.']);
-  } else {
-    render();
-    loadSiteOdds().catch(loadDemo);
-  }
+  render();
+  loadOdds();
 })();

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in – MatchedBet</title>
+  <meta name="description" content="Log in to your MatchedBet account.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html" aria-current="page">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="auth-main">
+    <form class="card auth-card" id="login-form" novalidate>
+      <h1>Log in</h1>
+      <p class="muted">Welcome back. Log in to use the oddsmatcher, offers and your profit tracker.</p>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <button class="btn block" type="submit">Log in</button>
+      <p class="muted auth-switch">New here? <a href="/register.html">Create a free account</a></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="/js/session.js"></script>
+  <script src="/js/auth-pages.js"></script>
+</body>
+</html>

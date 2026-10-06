@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offers – MatchedBet</title>
+  <meta name="description" content="Work through bookmaker sign-up offers and track the profit from each.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html" aria-current="page">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Sign-up offers</h1>
+    <p class="muted">Work through each bookmaker's welcome offer one at a time, and record what you made. Offers change often, so always read the bookmaker's current terms before you start.</p>
+
+    <div class="grid cols-3 stat-row">
+      <div class="card stat"><div class="label">Completed</div><div class="value" id="o-done">–</div></div>
+      <div class="card stat"><div class="label">In progress</div><div class="value" id="o-progress">–</div></div>
+      <div class="card stat"><div class="label">Profit from offers</div><div class="value" id="o-profit">–</div></div>
+    </div>
+
+    <details class="card how-to" style="margin-top:1rem">
+      <summary><strong>How to complete a sign-up offer</strong></summary>
+      <ol>
+        <li>Read the offer terms: minimum odds, qualifying stake, eligible markets and when the free bet arrives.</li>
+        <li>Find a close match in the <a href="/oddsmatcher.html">oddsmatcher</a> using the <strong>Normal</strong> rating, then place the qualifying bet and lay it straight away.</li>
+        <li>When the free bet lands, switch the oddsmatcher to <strong>SNR</strong>, pick a high rating at longer odds, and back and lay it.</li>
+        <li>Log both bets in the <a href="/tracker.html">profit tracker</a> and mark the offer as done here.</li>
+      </ol>
+    </details>
+
+    <section class="card" style="margin-top:1rem">
+      <div class="section-head">
+        <div class="segmented compact" role="radiogroup" aria-label="Show">
+          <input type="radio" name="o-filter" id="of-all" value="all" checked><label for="of-all">All</label>
+          <input type="radio" name="o-filter" id="of-todo" value="not-started"><label for="of-todo">To do</label>
+          <input type="radio" name="o-filter" id="of-prog" value="in-progress"><label for="of-prog">In progress</label>
+          <input type="radio" name="o-filter" id="of-done" value="done"><label for="of-done">Done</label>
+        </div>
+        <span class="form-note" id="o-note" role="status"></span>
+      </div>
+      <div class="table-wrap">
+        <table class="offers-table">
+          <thead><tr><th>Bookmaker</th><th>Type</th><th>Status</th><th class="num">Profit (£)</th><th>Last updated</th></tr></thead>
+          <tbody id="o-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="/js/session.js"></script>
+  <script src="/js/offers.js"></script>
+</body>
+</html>

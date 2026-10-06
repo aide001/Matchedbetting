@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account – MatchedBet</title>
+  <meta name="description" content="Manage your MatchedBet account.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="narrow">
+    <h1>Your account</h1>
+    <p class="muted" id="account-summary"></p>
+
+    <form class="card account-section" id="profile-form" novalidate>
+      <h2 class="h-small">Profile</h2>
+      <div class="field">
+        <label for="name">First name</label>
+        <input id="name" autocomplete="given-name" maxlength="60" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" disabled>
+      </div>
+      <div class="btn-row"><button class="btn" type="submit">Save</button><span class="form-note" id="profile-note" role="status"></span></div>
+    </form>
+
+    <form class="card account-section" id="password-form" novalidate>
+      <h2 class="h-small">Change password</h2>
+      <div class="field">
+        <label for="current-password">Current password</label>
+        <input id="current-password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="field">
+        <label for="new-password">New password</label>
+        <input id="new-password" type="password" autocomplete="new-password" minlength="8" required>
+        <span class="hint">At least 8 characters. This signs you out on your other devices.</span>
+      </div>
+      <div class="btn-row"><button class="btn" type="submit">Change password</button><span class="form-note" id="password-note" role="status"></span></div>
+    </form>
+
+    <form class="card account-section danger-zone" id="delete-form" novalidate>
+      <h2 class="h-small">Delete account</h2>
+      <p class="muted">This permanently deletes your account, your bets and your offer progress. Export your bets from the profit tracker first if you want to keep them.</p>
+      <div class="field">
+        <label for="delete-password">Enter your password to confirm</label>
+        <input id="delete-password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="btn-row"><button class="btn danger" type="submit">Delete my account</button><span class="form-note" id="delete-note" role="status"></span></div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
+    <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
+  </footer>
+
+  <script src="/js/session.js"></script>
+  <script src="/js/account.js"></script>
+</body>
+</html>

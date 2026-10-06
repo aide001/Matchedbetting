@@ -1,0 +1,20 @@
+[
+  { "id": "williamhill", "bookmaker": "William Hill", "kind": "sports" },
+  { "id": "paddypower", "bookmaker": "Paddy Power", "kind": "sports" },
+  { "id": "skybet", "bookmaker": "Sky Bet", "kind": "sports" },
+  { "id": "coral", "bookmaker": "Coral", "kind": "sports" },
+  { "id": "ladbrokes", "bookmaker": "Ladbrokes", "kind": "sports" },
+  { "id": "betfred", "bookmaker": "Betfred", "kind": "sports" },
+  { "id": "betvictor", "bookmaker": "BetVictor", "kind": "sports" },
+  { "id": "betway", "bookmaker": "Betway", "kind": "sports" },
+  { "id": "boylesports", "bookmaker": "BoyleSports", "kind": "sports" },
+  { "id": "unibet", "bookmaker": "Unibet", "kind": "sports" },
+  { "id": "888sport", "bookmaker": "888sport", "kind": "sports" },
+  { "id": "virginbet", "bookmaker": "Virgin Bet", "kind": "sports" },
+  { "id": "betfair-sportsbook", "bookmaker": "Betfair Sportsbook", "kind": "sports" },
+  { "id": "livescorebet", "bookmaker": "LiveScore Bet", "kind": "sports" },
+  { "id": "bet365", "bookmaker": "Bet365", "kind": "sports" },
+  { "id": "betfair-exchange", "bookmaker": "Betfair Exchange", "kind": "exchange" },
+  { "id": "smarkets", "bookmaker": "Smarkets", "kind": "exchange" },
+  { "id": "matchbook", "bookmaker": "Matchbook", "kind": "exchange" }
+]

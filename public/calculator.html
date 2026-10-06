@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calculator – MatchedBet</title>
   <meta name="description" content="Matched betting calculator for qualifying bets and free bets (SNR and SR), including exchange commission.">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="index.html">Matched<span>Bet</span></a>
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="oddsmatcher.html">Oddsmatcher</a>
-      <a class="nav-link" href="calculator.html" aria-current="page">Calculator</a>
-      <a class="nav-link" href="tracker.html">Profit tracker</a>
-      <a class="nav-link" href="guide.html">Guide</a>
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html" aria-current="page">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
     </nav>
   </header>
 
@@ -89,7 +93,7 @@
         <ul class="errors" id="r-errors" hidden></ul>
         <p class="hint muted" style="margin-top:1rem">Your exchange balance must cover the liability before you can place the lay bet.</p>
         <div class="btn-row" style="margin-top:1rem">
-          <a class="btn secondary" id="log-bet" href="tracker.html">Log this bet in the tracker</a>
+          <a class="btn secondary" id="log-bet" href="/tracker.html">Log this bet in the tracker</a>
         </div>
       </section>
     </div>
@@ -100,7 +104,8 @@
     <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
   </footer>
 
-  <script src="js/calc.js"></script>
-  <script src="js/calculator.js"></script>
+  <script src="/js/session.js"></script>
+  <script src="/js/calc.js"></script>
+  <script src="/js/calculator.js"></script>
 </body>
 </html>

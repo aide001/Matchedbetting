@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { buildMatches, filterAndSort } = require('../js/oddsmatch.js');
+const { buildMatches, filterAndSort } = require('../public/js/oddsmatch.js');
 
 const NOW = Date.parse('2026-10-01T12:00:00Z');
 

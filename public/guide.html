@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Beginner's guide – MatchedBet</title>
   <meta name="description" content="A step-by-step beginner's guide to matched betting, with a worked example and glossary.">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="index.html">Matched<span>Bet</span></a>
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="oddsmatcher.html">Oddsmatcher</a>
-      <a class="nav-link" href="calculator.html">Calculator</a>
-      <a class="nav-link" href="tracker.html">Profit tracker</a>
-      <a class="nav-link" href="guide.html" aria-current="page">Guide</a>
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html">Profit tracker</a>
+      <a class="nav-link" href="/guide.html" aria-current="page">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
     </nav>
   </header>
 
@@ -41,7 +45,7 @@
     <p>Bookmakers give new and existing customers free bets to win their business. Matched betting uses a
       <strong>betting exchange</strong> to bet against the outcome you backed at the bookmaker. When the stakes are
       sized correctly, a win on one side cancels out a loss on the other.</p>
-    <p>The <a href="oddsmatcher.html">oddsmatcher</a> finds bets where the bookmaker and exchange odds are close.
+    <p>The <a href="/oddsmatcher.html">oddsmatcher</a> finds bets where the bookmaker and exchange odds are close.
       The qualifying bet usually costs a few pence. The free bet then returns most of its face value as profit,
       whatever the result of the event.</p>
 
@@ -50,7 +54,7 @@
       <li>A betting exchange account, such as Betfair, Smarkets, Matchbook or Betdaq.</li>
       <li>Bookmaker accounts that have sign-up or reload offers.</li>
       <li>Some starting funds. £50–£100 is enough because your exchange balance has to cover the lay <em>liability</em>.</li>
-      <li>A way to log your bets. The <a href="tracker.html">profit tracker</a> does this.</li>
+      <li>A way to log your bets. The <a href="/tracker.html">profit tracker</a> does this.</li>
     </ul>
 
     <h2 id="example">Worked example: "Bet £10, get a £10 free bet"</h2>
@@ -73,7 +77,7 @@
       <li>Lay wins: £8.09 less 2% commission = <strong>+£7.93</strong>.</li>
     </ul>
     <p>Your overall profit for the offer is about <strong>£7.48</strong>, with no reliance on luck.
-      <a href="calculator.html">Try these numbers in the calculator.</a></p>
+      <a href="/calculator.html">Try these numbers in the calculator.</a></p>
 
     <h2 id="types">Free bet types</h2>
     <p><strong>Stake not returned (SNR)</strong> is the most common type. A winning free bet pays the winnings only, so
@@ -107,7 +111,7 @@
       <dt>Qualifying loss</dt><dd>The small amount you lose matching a qualifying bet.</dd>
       <dt>Rating</dt><dd>How close a back/lay match is to break-even. 100% means no loss on a qualifying bet.</dd>
       <dt>Underlay / overlay</dt><dd>Laying less or more than the balanced stake, so more of the profit lands on one outcome.</dd>
-      <dt>Oddsmatcher</dt><dd>A tool that searches for close back and lay odds across bookmakers and exchanges. <a href="oddsmatcher.html">Try ours.</a></dd>
+      <dt>Oddsmatcher</dt><dd>A tool that searches for close back and lay odds across bookmakers and exchanges. <a href="/oddsmatcher.html">Try ours.</a></dd>
       <dt>Gubbed</dt><dd>When a bookmaker limits your account or stops you receiving promotions.</dd>
     </dl>
   </main>
@@ -116,5 +120,6 @@
     <p>MatchedBet is an educational tool. It isn't financial advice and has no affiliation with any bookmaker or exchange.</p>
     <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
   </footer>
+  <script src="/js/session.js"></script>
 </body>
 </html>

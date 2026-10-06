@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { toCSV, parseCSV } = require('../js/csv.js');
+const { toCSV, parseCSV } = require('../public/js/csv.js');
 
 test('round-trips quotes, commas, newlines and formulas', () => {
   const rows = [

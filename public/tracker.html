@@ -5,23 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Profit tracker – MatchedBet</title>
   <meta name="description" content="Track your matched betting profit by bookmaker and month. Your data stays in your browser.">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="index.html">Matched<span>Bet</span></a>
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="oddsmatcher.html">Oddsmatcher</a>
-      <a class="nav-link" href="calculator.html">Calculator</a>
-      <a class="nav-link" href="tracker.html" aria-current="page">Profit tracker</a>
-      <a class="nav-link" href="guide.html">Guide</a>
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="/">Matched<span>Bet</span></a>
+      <a class="nav-link" href="/oddsmatcher.html">Oddsmatcher</a>
+      <a class="nav-link" href="/offers.html">Offers</a>
+      <a class="nav-link" href="/calculator.html">Calculator</a>
+      <a class="nav-link" href="/tracker.html" aria-current="page">Profit tracker</a>
+      <a class="nav-link" href="/guide.html">Guide</a>
+      <span class="nav-auth">
+        <a class="nav-link" href="/login.html">Log in</a>
+        <a class="btn small" href="/register.html">Sign up free</a>
+      </span>
     </nav>
   </header>
 
   <main>
     <h1>Profit tracker</h1>
-    <p class="muted">Log every bet you complete. Your entries are saved in this browser only, so export a CSV backup now and then.</p>
+    <p class="muted">Log every bet you complete. Your bets are saved to your account, so they follow you to any device.</p>
+    <div class="card migrate" id="migrate" hidden style="margin-bottom:1rem">
+      <span id="migrate-text"></span>
+      <div class="btn-row">
+        <button class="btn small" type="button" id="migrate-yes">Add them to my account</button>
+        <button class="btn small secondary" type="button" id="migrate-no">Discard</button>
+      </div>
+    </div>
 
     <div class="grid cols-3" style="margin-bottom:1rem">
       <div class="card stat"><div class="label">Total profit</div><div class="value" id="s-total">£0.00</div></div>
@@ -134,7 +145,8 @@
     <p>18+ only. If gambling stops being fun, get free support from <a href="https://www.begambleaware.org/" rel="noopener">BeGambleAware</a> or <a href="https://www.gamcare.org.uk/" rel="noopener">GamCare</a>.</p>
   </footer>
 
-  <script src="js/csv.js"></script>
-  <script src="js/tracker.js"></script>
+  <script src="/js/session.js"></script>
+  <script src="/js/csv.js"></script>
+  <script src="/js/tracker.js"></script>
 </body>
 </html>
