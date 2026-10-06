@@ -86,13 +86,15 @@
         ['Bet on', MBPlan.betLabel(p.selection)],
         ['Odds', p.back.odds.toFixed(2)],
         ['Stake', money(p.back.stake)]
-      ], p.back.link, 'Open ' + p.back.bookmaker, step === 'free' ? 'Use your free bet for this, not your own money.' : null),
+      ], p.back.link, MBPlan.linkLabel(p.back.bookmaker, p.back.linkLevel),
+        (step === 'free' ? 'Use your free bet for this, not your own money. ' : '') + MBPlan.linkHelp(p.back.linkLevel, 'back')),
       betBox('lay', '2 · Lay at ' + p.lay.exchange, [
         ['Lay (bet against)', MBPlan.layLabel(p.selection)],
         ['Odds', p.lay.odds.toFixed(2)],
         ['Lay stake', money(p.lay.stake)],
         ['Liability', money(p.lay.liability)]
-      ], p.lay.link, 'Open ' + p.lay.exchange, 'Place this straight after step 1. Your ' + p.lay.exchange + ' balance must cover the liability.')
+      ], p.lay.link, MBPlan.linkLabel(p.lay.exchange, p.lay.linkLevel),
+        'Place this straight after step 1. Your ' + p.lay.exchange + ' balance must cover the liability. ' + MBPlan.linkHelp(p.lay.linkLevel, 'lay'))
     );
     out.appendChild(grid);
     out.appendChild(el('p', 'plan-result', p.result >= 0
@@ -106,7 +108,6 @@
     });
     var warn = el('p', 'plan-warn');
     warn.append('Prices from ' + kickoffTime(d.fetchedAt) + '. Odds move, so check both before you bet. If either has changed, ', calc, '.');
-    if (!p.back.direct || !p.lay.direct) warn.append(' The buttons open each site\'s home page, so search for the event there.');
     out.appendChild(warn);
 
     var row = el('div', 'btn-row');

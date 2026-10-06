@@ -40,11 +40,16 @@
     return typeof v === 'string' && /^https:\/\/[^\s"'<>]+$/i.test(v) ? v : null;
   }
 
-  // Most specific link the feed gives: the selection (betslip), then the market, then the event at that bookmaker.
+  // Most specific link the feed gives, as The Odds API recommends: the selection (a bet slip link),
+  // then the market, then the event at that bookmaker. Records which level it found.
   function linkMap(bookmaker, market) {
     var map = {};
     (market && market.outcomes || []).forEach(function (o) {
-      map[o.name] = safeLink(o.link) || safeLink(market.link) || safeLink(bookmaker.link);
+      var url = safeLink(o.link);
+      var level = 'betslip';
+      if (!url) { url = safeLink(market.link); level = 'market'; }
+      if (!url) { url = safeLink(bookmaker.link); level = 'event'; }
+      map[o.name] = url ? { url: url, level: level } : null;
     });
     return map;
   }
@@ -119,8 +124,10 @@
             snrRating: freeBetRating(backOdds, best.layOdds, best.ex.commission),
             backUpdated: m.last_update || b.last_update || null,
             layUpdated: best.ex.updated || null,
-            backLink: backLinks[selection] || null,
-            layLink: best.ex.links[selection] || null
+            backLink: backLinks[selection] ? backLinks[selection].url : null,
+            backLinkLevel: backLinks[selection] ? backLinks[selection].level : null,
+            layLink: best.ex.links[selection] ? best.ex.links[selection].url : null,
+            layLinkLevel: best.ex.links[selection] ? best.ex.links[selection].level : null
           });
         });
       });

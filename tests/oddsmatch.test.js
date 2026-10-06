@@ -102,4 +102,7 @@ test('captures safe bookmaker and exchange links', () => {
   assert.equal(ars.backLink, 'https://coral.example/slip?sel=1');
   assert.equal(ars.layLink, 'https://smarkets.example/m');
   assert.equal(che.backLink, 'https://coral.example/event', 'unsafe link falls back to the event link');
+  assert.equal(ars.backLinkLevel, 'betslip');
+  assert.equal(che.backLinkLevel, 'event');
+  assert.equal(ars.layLinkLevel, 'market');
 });

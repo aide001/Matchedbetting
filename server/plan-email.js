@@ -1,5 +1,5 @@
 'use strict';
-const { betLabel, layLabel } = require('../public/js/bet-plan.js');
+const { betLabel, layLabel, linkLabel, linkHelp } = require('../public/js/bet-plan.js');
 // Builds the "here's exactly what to bet" email for one step of an offer.
 
 const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -38,14 +38,16 @@ function planEmail({ user, offer, plan, sample, fetchedAt, siteUrl }) {
     `  Odds: ${plan.back.odds.toFixed(2)}`,
     `  Stake: ${money(plan.back.stake)}`,
     freeNote,
-    plan.back.link ? `  Open ${plan.back.bookmaker}: ${plan.back.link}` : '',
+    plan.back.link ? `  ${linkLabel(plan.back.bookmaker, plan.back.linkLevel)}: ${plan.back.link}` : '',
+    plan.back.link ? `  ${linkHelp(plan.back.linkLevel, 'back')}` : null,
     '',
     `STEP 2. LAY at ${plan.lay.exchange}, straight after step 1`,
     `  Lay (bet against): ${layLabel(plan.selection)}`,
     `  Odds: ${plan.lay.odds.toFixed(2)}`,
     `  Lay stake: ${money(plan.lay.stake)}`,
     `  Liability: ${money(plan.lay.liability)} (you need this much in your ${plan.lay.exchange} account)`,
-    plan.lay.link ? `  Open ${plan.lay.exchange}: ${plan.lay.link}` : '',
+    plan.lay.link ? `  ${linkLabel(plan.lay.exchange, plan.lay.linkLevel)}: ${plan.lay.link}` : '',
+    plan.lay.link ? `  ${linkHelp(plan.lay.linkLevel, 'lay')}` : null,
     '',
     outcomeLine(plan),
     '',
@@ -74,7 +76,8 @@ ${sample ? '<p style="background:#fbe6ee;color:#a12d58;padding:10px 14px;border-
     ${row('Stake', esc(money(plan.back.stake)))}
   </table>
   ${plan.step === 'free' ? '<p style="margin:8px 0 0;font-size:14px">Use your <strong>free bet</strong> for this, not your own money.</p>' : ''}
-  ${btn(plan.back.link, `Open ${plan.back.bookmaker}`, '#2f7fd1')}
+  ${btn(plan.back.link, linkLabel(plan.back.bookmaker, plan.back.linkLevel), '#2f7fd1')}
+  ${plan.back.link ? `<p style="margin:6px 0 0;font-size:13px;color:#5b6878">${esc(linkHelp(plan.back.linkLevel, 'back'))}</p>` : ''}
 </div>
 
 <div style="border:2px solid #d1477a;background:#fbe6ee;border-radius:10px;padding:14px 16px;margin-bottom:12px">
@@ -85,7 +88,8 @@ ${sample ? '<p style="background:#fbe6ee;color:#a12d58;padding:10px 14px;border-
     ${row('Lay stake', esc(money(plan.lay.stake)))}
     ${row('Liability', esc(money(plan.lay.liability)) + ' <span style="font-weight:400;color:#5b6878">(must be in your account)</span>')}
   </table>
-  ${btn(plan.lay.link, `Open ${plan.lay.exchange}`, '#d1477a')}
+  ${btn(plan.lay.link, linkLabel(plan.lay.exchange, plan.lay.linkLevel), '#d1477a')}
+  ${plan.lay.link ? `<p style="margin:6px 0 0;font-size:13px;color:#5b6878">${esc(linkHelp(plan.lay.linkLevel, 'lay'))}</p>` : ''}
 </div>
 
 <p style="background:#eef1f5;border-radius:8px;padding:10px 14px;font-weight:600">${esc(outcomeLine(plan))}</p>

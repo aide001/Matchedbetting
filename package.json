@@ -5,7 +5,8 @@
   "description": "Matched betting website with accounts, oddsmatcher, offers checklist, calculator and profit tracker.",
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning server/index.js",
-    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.js"
+    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.js",
+    "check-links": "node scripts/check-links.js"
   },
   "license": "MIT",
   "engines": {

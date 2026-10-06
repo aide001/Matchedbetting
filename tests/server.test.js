@@ -384,6 +384,8 @@ test('bet plans: on the page and by email, built from live odds with links', asy
     assert.ok(mail.html.includes('&lt;b&gt;Chelsea&lt;/b&gt;'), 'names from the feed are escaped');
     assert.ok(!mail.html.includes('<b>Chelsea</b>'));
     assert.ok(mail.html.includes('href="https://wh.example/event"'));
+    assert.match(mail.text, /Open the match at William Hill: https:\/\/wh\.example\/event/);
+    assert.match(mail.text, /Open Betfair: https:\/\/www\.betfair\.com\/exchange\/plus/);
 
     assert.equal((await c('POST', '/api/offers/bet365/plan/email', { step: 'qualifying' })).status, 409);
   } finally { await s.close(); }

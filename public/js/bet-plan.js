@@ -105,6 +105,7 @@
         odds: r.backOdds,
         stake: stake,
         link: r.backLink || HOME_LINKS[r.bookmakerKey] || null,
+        linkLevel: r.backLink ? r.backLinkLevel : (HOME_LINKS[r.bookmakerKey] ? 'home' : null),
         direct: !!r.backLink
       },
       lay: {
@@ -114,6 +115,7 @@
         liability: calc.liability,
         commission: r.commission,
         link: r.layLink || HOME_LINKS[r.exchangeKey] || null,
+        linkLevel: r.layLink ? r.layLinkLevel : (HOME_LINKS[r.exchangeKey] ? 'home' : null),
         direct: !!r.layLink
       },
       profitIfBackWins: calc.profitIfBackWins,
@@ -132,6 +134,25 @@
     'no-match': 'There\'s no suitable match right now (we look for events starting between 1 hour and 7 days from now). Try again later, when more prices are available.'
   };
 
+  // Button text that says honestly where the link goes.
+  function linkLabel(site, level) {
+    if (level === 'betslip') return 'Open bet slip at ' + site;
+    if (level === 'market' || level === 'event') return 'Open the match at ' + site;
+    return 'Open ' + site;
+  }
+
+  // What the member still has to do after clicking, for each link level.
+  function linkHelp(level, side) {
+    var bet = side === 'lay' ? 'click the pink lay price for your selection' : 'click the price for your selection';
+    if (level === 'betslip') {
+      return side === 'lay'
+        ? 'This opens the bet slip with your selection. Check it says Lay, then type in the lay stake.'
+        : 'This opens the bet slip with your selection added. Type in the stake and check the odds.';
+    }
+    if (level === 'market' || level === 'event') return 'This opens the match. Find the match result market and ' + bet + ', then type in the stake.';
+    return 'This opens the home page. Search for the match, then ' + bet + '.';
+  }
+
   // How to describe the bet in plain words: "Arsenal to win" or "The draw".
   function betLabel(selection) {
     return /^draw$/i.test(selection) ? 'The draw' : selection + ' to win';
@@ -141,7 +162,7 @@
     return /^draw$/i.test(selection) ? 'The draw' : selection;
   }
 
-  var api = { betLabel: betLabel, layLabel: layLabel, HOME_LINKS: HOME_LINKS, REASONS: REASONS, rowsForOffer: rowsForOffer, singleFreeBet: singleFreeBet, makePlan: makePlan };
+  var api = { linkLabel: linkLabel, linkHelp: linkHelp, betLabel: betLabel, layLabel: layLabel, HOME_LINKS: HOME_LINKS, REASONS: REASONS, rowsForOffer: rowsForOffer, singleFreeBet: singleFreeBet, makePlan: makePlan };
   if (isNode) module.exports = api;
   else root.MBPlan = api;
 })(typeof window !== 'undefined' ? window : this);

@@ -33,6 +33,8 @@ test('qualifying plan picks the best-rated eligible Coral price and works out th
   assert.equal(p.back.stake, 5);
   assert.equal(p.back.link, 'https://coral.example/slip');
   assert.equal(p.back.direct, true);
+  assert.equal(p.back.linkLevel, 'betslip');
+  assert.equal(p.lay.linkLevel, 'home');
   assert.equal(p.lay.exchange, 'Smarkets');
   assert.equal(p.lay.link, HOME_LINKS.smarkets);
   assert.equal(p.lay.direct, false);
@@ -68,4 +70,13 @@ test('bet labels read naturally', () => {
   const { betLabel } = require('../public/js/bet-plan.js');
   assert.equal(betLabel('Arsenal'), 'Arsenal to win');
   assert.equal(betLabel('Draw'), 'The draw');
+});
+
+test('link buttons say where they go', () => {
+  const { linkLabel, linkHelp } = require('../public/js/bet-plan.js');
+  assert.equal(linkLabel('Coral', 'betslip'), 'Open bet slip at Coral');
+  assert.equal(linkLabel('Betfair', 'market'), 'Open the match at Betfair');
+  assert.equal(linkLabel('Smarkets', 'home'), 'Open Smarkets');
+  assert.match(linkHelp('betslip', 'lay'), /check it says Lay/i);
+  assert.match(linkHelp('home', 'back'), /Search for the match/);
 });

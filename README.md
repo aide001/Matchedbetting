@@ -36,6 +36,10 @@ A matched betting website with member accounts. It runs on Node.js with SQLite a
   - **Back:** the bet, odds, stake and a link to the bookmaker.
   - **Lay:** the exchange, odds, lay stake, liability and a link.
 
+  Each button says where it goes: **"Open bet slip at …"** when the feed has a bet slip link (the
+  selection is added to the slip and the member types the stake), **"Open the match at …"** for event or
+  market links, or **"Open …"** for the home page.
+
   The member can email these instructions to themselves through Brevo. The server works the plan out
   again before sending, so the email always matches its odds. Links come from The Odds API's
   `includeLinks` option where it has a direct event or bet-slip link. Otherwise they go to the bookmaker's
@@ -77,6 +81,19 @@ The server fetches odds only when a member opens the oddsmatcher and the cached 
 `ODDS_REFRESH_MINUTES`. Each refresh costs 2 requests per sport. With the defaults, that's at most about
 370 a month, which is within the free plan's 500. For fresher odds, use a paid plan and lower the
 refresh time.
+
+## Checking which sites give bet slip links
+
+The Odds API doesn't publish which bookmakers supply bet slip links. Run this once with your key (it uses
+2 requests):
+
+```sh
+ODDS_API_KEY=your-key npm run check-links            # Premier League
+ODDS_API_KEY=your-key npm run check-links -- soccer_efl_champ
+```
+
+It lists every bookmaker and exchange with how many prices came with a bet slip link, a match link or no
+link, plus an example of each.
 
 ## Setting up password reset emails (Brevo)
 
